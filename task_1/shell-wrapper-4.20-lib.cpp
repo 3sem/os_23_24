@@ -17,6 +17,7 @@ void run_cmd (char* cmd) {
 
         if (waitpid (pid, &forkRetVal, 0) == -1) printf ("какая-то хуйня бля\n");
         printf ("fork ret val: %d", WEXITSTATUS (forkRetVal));
+        printf ("\n");
         return;
     }
 

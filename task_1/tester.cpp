@@ -10,5 +10,5 @@ int main () {
 
     printf ("I am no longer life\n");
 
-    return 0;
+    return 42;
 }
