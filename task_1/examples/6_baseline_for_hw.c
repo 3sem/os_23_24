@@ -14,7 +14,7 @@ static void run_cmd(const char *cmd)
     /* add status check here (use examples) */
     return;
   }
-  
+
   char **args=parse_cmd(cmd); // implement this function by yourself
   execvp(args[0], args);
   printf("exec* failed\n");

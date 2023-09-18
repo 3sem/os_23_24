@@ -1,5 +1,7 @@
 #include "shell-wrapper-4.20.hpp"
 
+const char* transitFileName = "temp.stream";
+
 void run_cmd (char* cmd) {
 
     assert (cmd != NULL);
@@ -15,7 +17,11 @@ void run_cmd (char* cmd) {
 
         int forkRetVal = 0;
 
-        if (waitpid (pid, &forkRetVal, 0) == -1) printf ("какая-то хуйня бля\n");
+        if (waitpid (pid, &forkRetVal, 0) == -1) {
+
+            perror ("какая-то хуйня бля\n");
+            exit (-1);
+        }
         printf ("fork ret val: %d", WEXITSTATUS (forkRetVal));
         printf ("\n");
         return;
@@ -38,7 +44,14 @@ void parse_cmd (char* cmd, char** args) {
 
     args[0] = strtok (cmd, delim);
 
-    for (int i = 1; i < MAX_COM_SIZE and (args[i] = strtok (NULL, delim)) != NULL; i++);
+    int i = 0;
+
+    for (i = 1; i < MAX_COM_SIZE and (args[i] = strtok (NULL, delim)) != NULL; i++);
+
+    for (int j = 0; j < i ; j++) {
+
+        printf ("%d : <%s>\n", j, args[j]);
+    }
 
     return;
 }
