@@ -9,6 +9,9 @@ void run_cmd (char* cmd) {
     int sequenceSize = parse_cmd (cmd, args, cmdTokens);
     printf ("seq size = %d\n", sequenceSize);
 
+    int stdoutSave = dup (STDOUT_FILENO);
+    int stdinSave = dup (STDIN_FILENO);
+
     int fd[2] = {0};
 
     if (pipe (fd) < 0) {
@@ -16,6 +19,7 @@ void run_cmd (char* cmd) {
         perror ("хуйня пайп пошел нахуй\n");
         exit (-1);
     }
+
 
     for (int i = 0; i < sequenceSize; i++) {
 
@@ -36,6 +40,9 @@ void run_cmd (char* cmd) {
                 exit (-1);
             }
 
+            dup2 (stdoutSave, STDOUT_FILENO);
+            dup2 (stdinSave, STDIN_FILENO);
+
             printf ("fork returned : %d", WEXITSTATUS(forkRetVal));
             printf ("\n");
 
@@ -44,31 +51,16 @@ void run_cmd (char* cmd) {
 
         // Read from 0 write to 1
 
-        // if (cmdTokens[i].begin == -1)
-        //     dup2 (1, STDOUT_FILENO);
-        // else
-        //     dup2 (fd[1], STDOUT_FILENO);
+        if (cmdTokens[i].begin != -1)
+            dup2 (fd[0], STDIN_FILENO);
 
-        // if (cmdTokens[i].end == -1)
-        //     dup2 (0, STDIN_FILENO);
-        // else
-        //     dup2 (fd[0], STDIN_FILENO);
+        if (cmdTokens[i].end != -1)
+            dup2 (fd[1], STDOUT_FILENO);
 
         if (cmdTokens[i].end != -1) args[cmdTokens[i].end] = NULL;
 
-        for (int j = 0; j < 10; j++) {
-
-            printf ("%d : <%s>\n", j, args[j]);
-        }
-
         execvp (args[cmdTokens[i].begin == -1 ? 0 : cmdTokens[i].begin], args + (cmdTokens[i].begin == -1 ? 0 : cmdTokens[i].begin));
-
-        printf ("Executed postirony # %d\n", i);
-        printf ("\n");
     }
-
-    // dup2 (0, STDIN_FILENO);
-    // dup2 (1, STDOUT_FILENO);
 
 }
 

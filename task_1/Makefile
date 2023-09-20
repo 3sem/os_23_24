@@ -8,8 +8,9 @@ DEPSDIR=_deps/
 WRAP_SRC=shell-wrapper-4.20.cpp shell-wrapper-4.20-lib.cpp
 TEST_SRC=tester.cpp
 TEST1_SRC=tester2.cpp
+TEST2_SRC=tester3.cpp
 
-all: $(DEPSDIR) $(OBJDIR) wrap.out test.out test1.out
+all: $(DEPSDIR) $(OBJDIR) wrap.out test.out test1.out test2.out
 
 -include $(addprefix $(DEPSDIR),*.d)
 
@@ -28,6 +29,9 @@ test.out: $(addprefix $(OBJDIR), $(TEST_SRC:.cpp=.o))
 	$(CC) $(CFLAGS) $^ -o $@
 
 test1.out: $(addprefix $(OBJDIR), $(TEST1_SRC:.cpp=.o))
+	$(CC) $(CFLAGS) $^ -o $@
+
+test2.out: $(addprefix $(OBJDIR), $(TEST2_SRC:.cpp=.o))
 	$(CC) $(CFLAGS) $^ -o $@
 
 $(OBJDIR):

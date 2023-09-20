@@ -8,6 +8,7 @@
 #include <string.h>
 #include <assert.h>
 #include <sys/wait.h>
+#include <fcntl.h>
 
 #define MAX_COM_SIZE 1024
 
