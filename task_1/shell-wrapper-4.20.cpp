@@ -2,7 +2,7 @@
 
 int main (int argc, char* argv[]) {
 
-    char* comLineInput = (char*) calloc (MAX_COM_SIZE, sizeof (char));
+    char* comLineInput = (char*) calloc (MAX_COM_SIZE + 1, sizeof (char));
     assert (comLineInput != NULL);
 
     while (true) {
@@ -15,6 +15,10 @@ int main (int argc, char* argv[]) {
             return -1;
         }
 
+        comLineInput[inputSize] = '\0';
+
         run_cmd (comLineInput);
     }
+
+    free (comLineInput);
 }

@@ -11,6 +11,13 @@
 
 #define MAX_COM_SIZE 1024
 
+struct comTok {
+
+    size_t begin = -1, end = -1;
+
+    comTok (size_t _begin = -1, size_t _end = -1) : begin (_begin), end (_end) {}
+};
+
 void run_cmd (char* cmd);
 
-void parse_cmd (char* cmd, char** args);
+int parse_cmd (char* cmd, char** args, comTok* cmdTokens);
