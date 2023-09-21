@@ -1,0 +1,8 @@
+*.png
+*.dot
+*.o
+*.out
+*.lol*
+*.rng
+_objs
+_deps
