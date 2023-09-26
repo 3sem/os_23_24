@@ -15,18 +15,20 @@
 #define rngIFname "rng_5gb_file.rng"
 #define rngOFname "pipe_output_rng.rng"
 
+FILE* generateRngFileOf5Gb ();
+
 size_t getFileSize (char* fileName);
 
 void transferFile (char* IFname, char* OFname, size_t chunkSize);
 
-struct duplex {
+struct Duplex {
 
     char* buf = NULL;
     size_t cap = 0;
     size_t size = 0;
     int fd[2][2] = {0}; // fd[0] - parent->child and the other way around
 
-    duplex (size_t _cap) : cap (_cap), size (0) {
+    Duplex (size_t _cap) : cap (_cap), size (0) {
 
         buf = (char*) calloc (cap + 1, sizeof (char));
         assert (buf != NULL);
@@ -39,7 +41,7 @@ struct duplex {
     }
 
     /// @brief Sends contents of buffer in certain direction
-    /// @param dir direction of transmission
+    /// @param dir direction of transmission (0 - parent->child)
     /// @return something i haven't thought about yet
     size_t send (int dir) {
 

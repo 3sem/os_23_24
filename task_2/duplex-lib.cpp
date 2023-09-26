@@ -1,5 +1,29 @@
 #include "duplex.hpp"
 
+FILE* generateRngFileOf5Gb () {
+
+    pid_t pid = fork ();
+
+    if (pid < 0) {
+
+        perror ("Fork gone wrong\n");
+        exit (-1);
+    }
+    if (pid == 0) {
+
+        char* const com[] = {"dd", "if=/dev/urandom", "of=" rngIFname, "bs=1G", "count=5"};
+
+        execvp (com[0], com);
+    }
+
+    waitpid (pid, NULL, 0);
+
+    FILE* retVal = fopen (rngIFname, "r");
+    assert (retVal != NULL);
+
+    return retVal;
+}
+
 size_t getFileSize (char* fileName) {
 
     struct stat fileStat;
@@ -26,6 +50,4 @@ void transferFile (char* IFname, char* OFname) {
         perror ("Error opening files\n");
         exit (-1);
     }
-
-    
 }
