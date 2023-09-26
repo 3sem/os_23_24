@@ -1,0 +1,28 @@
+For buffer size of 128 bytes:
+Read 1073741824 bytes
+Written 1073741824 bytes
+Integrity percent of transaction: 100.00
+Hash value for input: 1796450500712232445
+Hash value for output: 1796450500712232445
+------------------------
+For buffer size of 256 bytes:
+Read 1073741824 bytes
+Written 1073741824 bytes
+Integrity percent of transaction: 100.00
+Hash value for input: 1796450500712232445
+Hash value for output: 1796450500712232445
+------------------------
+For buffer size of 512 bytes:
+Read 1073741824 bytes
+Written 1073741824 bytes
+Integrity percent of transaction: 100.00
+Hash value for input: 1796450500712232445
+Hash value for output: 1796450500712232445
+------------------------
+For buffer size of 1024 bytes:
+Read 1073741824 bytes
+Written 1073741824 bytes
+Integrity percent of transaction: 100.00
+Hash value for input: 1796450500712232445
+Hash value for output: 1796450500712232445
+------------------------

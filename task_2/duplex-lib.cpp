@@ -68,7 +68,7 @@ void testTransmissionIntegrity (FILE** input, FILE** output, FILE** result, Dupl
         }
     }
 
-    fprintf (*result, "For buffer size of %d bytes:\nRead %d bytes\nWritten %d bytes\nCoeffitient of completion of transaction: %5.2lf%\nHash value for *input: %lu\nHash value for *output: %lu\n------------------------\n",
+    fprintf (*result, "For buffer size of %lu bytes:\nRead %d bytes\nWritten %d bytes\nIntegrity percent of transaction: %5.2lf\nHash value for input: %lu\nHash value for output: %lu\n------------------------\n",
         lol->cap, sourceSize, outputSize, ((double) outputSize) / ((double) sourceSize) * 100.0, hashSource, hashOutput);
 
     fclose (*output);

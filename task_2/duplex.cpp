@@ -10,7 +10,7 @@ int main () {
     assert (input != NULL);
     assert (output != NULL);
 
-    size_t counter = 0;
+    setvbuf (result, NULL, _IONBF, 0);
 
     for (int cap = 128; cap <= 1024; cap*=2) {
 
@@ -26,45 +26,31 @@ int main () {
         }
         if (pid == 0) {
 
-            while (lol.read2bufFromFile (input, 0) > 0) {
+            while (lol.read2bufFromFile (input) > 0) {
 
                 lol.send (1);
-                printf ("Child sent\n");
+                // printf ("Child sent\n");
 
-                int charCnt = lol.recieve (0);
-                printf ("Child recieved %d\n", lol.size);
+                lol.recieve (0);
+                // printf ("Child recieved %d\n", lol.size);
 
-                fwrite (lol.buf, sizeof (char), charCnt, output);
-
-                counter += cap;
-                printf ("wrote %lu bytes by now\n", counter);
+                fwrite (lol.buf, sizeof (char), lol.size, output);
             }
-
-            lol.buf[0] = EOF;
-            lol.size = 1;
-
-            lol.send (1);
 
             exit (42);
         }
 
-        while (true) {
+        while (waitpid (-1, NULL, WNOHANG) == 0) {
 
-            size_t bytesRecieved = lol.recieve (1);
+            if (lol.recieve (1) > 0) {
 
-            printf ("Parent recieved %lu\n", bytesRecieved);
-
-            printf ("buf: [ %d", lol.buf[0]);
-            for (int i = 1; i < cap; i++) printf (", %d", lol.buf[i]);
-            printf ("]\n");
-
-            if (lol.buf[0] == EOF) break;
-
-            lol.send (0);
-            printf ("Parent sent\n");
+                // printf ("Parent recieved\n");
+                lol.send (0);
+                // printf ("Parent sent\n");
+            }
         }
 
-        waitpid (pid, NULL, 0);
+        printf ("Left iteration with cap %d", cap);
 
         testTransmissionIntegrity (&input, &output, &result, &lol);
 

@@ -32,6 +32,8 @@ struct Duplex {
 
         pipe (fd[0]);
         pipe (fd[1]);
+
+        fcntl (fd[1][0], F_SETFL, O_NONBLOCK);
     }
 
     /// @brief Sends contents of buffer in certain direction
@@ -58,11 +60,11 @@ struct Duplex {
 
         size = read (fd[dir][0], buf, cap);
 
-        if (size == -1) {
+        // if (size == -1) {
 
-            perror ("Some read error\n");
-            exit (-1);
-        }
+        //     perror ("Some read error\n");
+        //     exit (-1);
+        // }
 
         return size;
     }
