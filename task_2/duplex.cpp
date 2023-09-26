@@ -2,12 +2,17 @@
 
 int main () {
 
+    FILE* result = fopen (fileOutputName, "w");
+    FILE* input = fopen (rngIFname, "r");
+    FILE* output = fopen (rngOFname, "w");
+
+    assert (result != NULL);
+    assert (input != NULL);
+    assert (output != NULL);
+
     for (int cap = 128; cap <= 1024; cap*=2) {
 
         Duplex lol (cap);
-
-        FILE* input = generateRngFileOf5Gb ();
-        assert (input != NULL);
 
         pid_t pid = fork ();
 
@@ -19,27 +24,21 @@ int main () {
         }
         if (pid == 0) {
 
-            FILE* output = fopen (rngOFname, "w");
-            assert (output != NULL);
-
-            setvbuf (output, NULL, _IONBF, 0);
-
             while (lol.read2bufFromFile (input, 0) > 0) {
 
                 lol.send (1);
                 printf ("Child sent\n");
 
                 int charCnt = lol.recieve (0);
-                printf ("Child recieved\n");
+                printf ("Child recieved %d\n", lol.size);
 
                 fwrite (lol.buf, sizeof (char), charCnt, output);
             }
 
+            lol.buf[0] = EOF;
+            lol.size = 1;
+
             lol.send (1);
-
-            int charCnt = lol.recieve (0);
-
-            fwrite (lol.buf, sizeof (char), charCnt, output);
 
             exit (42);
         }
@@ -48,18 +47,18 @@ int main () {
 
             size_t bytesRecieved = lol.recieve (1);
 
-            printf ("bytes recieved : %lu\n", bytesRecieved);
+            printf ("Parent recieved %lu\n", bytesRecieved);
 
-            if (bytesRecieved == 0) break;
+            if (lol.buf[0] == EOF) break;
 
             lol.send (0);
             printf ("Parent sent\n");
         }
 
-        lol.send (0);
-
-        printf ("Finished intercocksuck\n");
-
-        exit (42*42);
+        testTransmissionIntegrity (&input, &output, &result, &lol);
     }
+
+    fclose (input);
+    fclose (output);
+    fclose (result);
 }

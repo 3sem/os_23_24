@@ -36,3 +36,44 @@ size_t getFileSize (char* fileName) {
 
     return fileStat.st_size;
 }
+
+void testTransmissionIntegrity (FILE** input, FILE** output, FILE** result, Duplex* lol) {
+
+    fclose (*output);
+    *output = fopen (rngOFname, "r");
+    assert (*output != NULL);
+    fseek (*input, SEEK_SET, 0);
+
+    int sourceSize = getFileSize (rngIFname);
+    int outputSize = getFileSize (rngOFname);
+
+    size_t hashSource = 0;
+    size_t hashOutput = 0;
+
+    while (lol->read2bufFromFile (*input) > 0) {
+
+        for (int i = 0; i < lol->size; i++) {
+
+            hashSource *= HashMult;
+            hashSource += lol->buf[i];
+        }
+    }
+
+    while (lol->read2bufFromFile (*output) > 0) {
+
+        for (int i = 0; i < lol->size; i++) {
+
+            hashOutput *= HashMult;
+            hashOutput += lol->buf[i];
+        }
+    }
+
+    fprintf (*result, "For buffer size of %d bytes:\nRead %d bytes\nWritten %d bytes\nCoeffitient of completion of transaction: %5.2lf%\nHash value for *input: %lu\nHash value for *output: %lu\n------------------------\n",
+        lol->cap, sourceSize, outputSize, ((double) outputSize) / ((double) sourceSize) * 100.0, hashSource, hashOutput);
+
+    fclose (*output);
+
+    *output = fopen (rngOFname, "w");
+
+    fseek (*input, SEEK_SET, 0);
+}

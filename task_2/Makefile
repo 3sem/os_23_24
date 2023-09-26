@@ -5,6 +5,7 @@ CFLAGS=-Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-equal
 OBJDIR=_objs/
 DEPSDIR=_deps/
 
+LIB_SRC=flog.cpp
 DUPLEX_SRC=duplex.cpp duplex-lib.cpp
 RNG_FILE_NAME=rng_5gb_file.rng
 
@@ -20,7 +21,7 @@ $(OBJDIR)%.o: %.cpp
 	rm input.tmp line.tmp
 	$(CC) -c $(CFLAGS) $< -o $@
 
-duplex.out: $(addprefix $(OBJDIR),$(DUPLEX_SRC:.cpp=.o))
+duplex.out: $(addprefix $(OBJDIR),$(DUPLEX_SRC:.cpp=.o) $(LIB_SRC:.cpp=.o))
 	$(CC) $(CFLAGS) $^ -o $@
 
 $(RNG_FILE_NAME):

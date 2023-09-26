@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -11,15 +10,13 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <assert.h>
+#include "flog.hpp"
 
 #define rngIFname "rng_5gb_file.rng"
 #define rngOFname "pipe_output_rng.rng"
-
-FILE* generateRngFileOf5Gb ();
+#define fileOutputName "results.data"
 
 size_t getFileSize (char* fileName);
-
-void transferFile (char* IFname, char* OFname, size_t chunkSize);
 
 struct Duplex {
 
@@ -112,3 +109,5 @@ struct Duplex {
     }
 
 };
+
+void testTransmissionIntegrity (FILE** input, FILE** output, FILE** result, Duplex* lol);
