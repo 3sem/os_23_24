@@ -22,7 +22,9 @@ int main () {
             FILE* output = fopen (rngOFname, "w");
             assert (output != NULL);
 
-            while (fread (lol.buf, sizeof (char), cap, input) > 0) {
+            setvbuf (output, NULL, _IONBF, 0);
+
+            while (lol.read2bufFromFile (input, 0) > 0) {
 
                 lol.send (1);
                 printf ("Child sent\n");
@@ -42,9 +44,14 @@ int main () {
             exit (42);
         }
 
-        while (lol.recieve (1) > 0) {
+        while (true) {
 
-            printf ("Parent recieved\n");
+            size_t bytesRecieved = lol.recieve (1);
+
+            printf ("bytes recieved : %lu\n", bytesRecieved);
+
+            if (bytesRecieved == 0) break;
+
             lol.send (0);
             printf ("Parent sent\n");
         }

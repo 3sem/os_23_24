@@ -33,11 +33,8 @@ struct Duplex {
         buf = (char*) calloc (cap + 1, sizeof (char));
         assert (buf != NULL);
 
-        if (pipe (fd[0]) < 0 or pipe (fd[1]) < 0) {
-
-            perror ("Failed to create pipe\n");
-            exit (-1);
-        }
+        pipe (fd[0]);
+        pipe (fd[1]);
     }
 
     /// @brief Sends contents of buffer in certain direction
@@ -62,15 +59,15 @@ struct Duplex {
             exit (-1);
         }
 
-        int bytesRead = read (fd[dir][0], buf, cap);
+        size = read (fd[dir][0], buf, cap);
 
-        if (bytesRead == -1) {
+        if (size == -1) {
 
             perror ("Some read error\n");
             exit (-1);
         }
 
-        return bytesRead;
+        return size;
     }
 
     size_t write2buf (char* src) {
@@ -85,8 +82,22 @@ struct Duplex {
 
         if (_size > cap) return -1;
 
+        size = _size;
+
         strncpy (buf, src, _size);
         buf[_size] = '\0';
+    }
+
+    size_t read2bufFromFile (FILE* input, size_t _size = 0) {
+
+        assert (input != NULL);
+        assert (_size <= cap);
+
+        if (_size == 0) _size = cap;
+
+        size = fread (buf, sizeof (char), _size, input);
+
+        return size;
     }
 
     void DTOR () {

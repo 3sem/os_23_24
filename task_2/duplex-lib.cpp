@@ -36,18 +36,3 @@ size_t getFileSize (char* fileName) {
 
     return fileStat.st_size;
 }
-
-void transferFile (char* IFname, char* OFname) {
-
-    assert (IFname != NULL);
-    assert (OFname != NULL);
-
-    FILE* IF = fopen (IFname, "r");
-    FILE* OF = fopen (OFname, "w");
-
-    if (IF == NULL or OF == NULL) {
-
-        perror ("Error opening files\n");
-        exit (-1);
-    }
-}

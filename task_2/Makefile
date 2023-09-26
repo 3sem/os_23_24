@@ -26,6 +26,9 @@ duplex.out: $(addprefix $(OBJDIR),$(DUPLEX_SRC:.cpp=.o))
 $(RNG_FILE_NAME):
 	dd if=/dev/urandom of=$@ bs=1G count=5
 
+small:
+	dd if=/dev/urandom of=$(RNG_FILE_NAME) bs=128 count=128
+
 $(OBJDIR):
 	mkdir $(OBJDIR)
 
