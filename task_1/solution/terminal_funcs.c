@@ -72,9 +72,6 @@ void seq_pipe(char ***cmds)
     {
         pipe(fd);
 
-        printf("New used pipe descriptors: %d %d\n", fd[0], fd[1]);
-        printf("Input descriptor for current child process: %d\n", fd_in);
-
         if ((pid = fork()) == -1) 
         {
             exit(1);
