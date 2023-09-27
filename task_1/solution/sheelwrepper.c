@@ -27,8 +27,8 @@ int main() {
     int step = 0;
     for (int i = 0; i < 80; i++) {
       if (str[i] == '|') {
-        i += 2;
-        step += 2;
+        i += 1;
+        step += 1;
       } else if (str[i] == '\n') {
         str[i - step] = NULL;
         continue;
