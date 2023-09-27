@@ -1,4 +1,3 @@
 *.out
 _deps
 _objs
-*.stream

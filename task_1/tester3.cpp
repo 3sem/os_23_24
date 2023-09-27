@@ -4,7 +4,6 @@
 int main () {
 
     FILE* lol = fopen ("huynya.lol", "w");
-
     char lol1[1000] = {};
 
     scanf ("%s", lol1);

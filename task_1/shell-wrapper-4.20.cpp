@@ -8,7 +8,6 @@ int main (int argc, char* argv[]) {
     while (true) {
 
         int inputSize = 0;
-
         if ((inputSize = read (0, comLineInput, MAX_COM_SIZE)) == -1) {
 
             perror ("some read error i guess\n");
@@ -16,7 +15,6 @@ int main (int argc, char* argv[]) {
         }
 
         comLineInput[inputSize] = '\0';
-
         run_cmd (comLineInput);
     }
 

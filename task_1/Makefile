@@ -42,7 +42,7 @@ $(DEPSDIR):
 
 clean:
 	rm -rf $(OBJDIR) $(DEPSDIR)
-	rm -rf *.png *.dot *.o *.out *.lol*
+	rm -rf *.png *.dot *.o *.out *.lol* *.rng
 	clear
 
 .PHONY: clean
