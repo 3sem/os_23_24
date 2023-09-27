@@ -2,27 +2,47 @@ For buffer size of 128 bytes:
 Read 1073741824 bytes
 Written 1073741824 bytes
 Integrity percent of transaction: 100.00
-Hash value for input: 1796450500712232445
-Hash value for output: 1796450500712232445
+Time consumed on transaction: 163.242517
+Hash value for input: 10564714561125436809
+Hash value for output: 10564714561125436809
 ------------------------
 For buffer size of 256 bytes:
 Read 1073741824 bytes
 Written 1073741824 bytes
 Integrity percent of transaction: 100.00
-Hash value for input: 1796450500712232445
-Hash value for output: 1796450500712232445
+Time consumed on transaction: 98.595616
+Hash value for input: 10564714561125436809
+Hash value for output: 10564714561125436809
 ------------------------
 For buffer size of 512 bytes:
 Read 1073741824 bytes
 Written 1073741824 bytes
 Integrity percent of transaction: 100.00
-Hash value for input: 1796450500712232445
-Hash value for output: 1796450500712232445
+Time consumed on transaction: 65.085008
+Hash value for input: 10564714561125436809
+Hash value for output: 10564714561125436809
 ------------------------
 For buffer size of 1024 bytes:
 Read 1073741824 bytes
 Written 1073741824 bytes
 Integrity percent of transaction: 100.00
-Hash value for input: 1796450500712232445
-Hash value for output: 1796450500712232445
+Time consumed on transaction: 49.034540
+Hash value for input: 10564714561125436809
+Hash value for output: 10564714561125436809
+------------------------
+For buffer size of 2048 bytes:
+Read 1073741824 bytes
+Written 1073741824 bytes
+Integrity percent of transaction: 100.00
+Time consumed on transaction: 41.750552
+Hash value for input: 10564714561125436809
+Hash value for output: 10564714561125436809
+------------------------
+For buffer size of 4096 bytes:
+Read 1073741824 bytes
+Written 1073741824 bytes
+Integrity percent of transaction: 100.00
+Time consumed on transaction: 39.676719
+Hash value for input: 10564714561125436809
+Hash value for output: 10564714561125436809
 ------------------------

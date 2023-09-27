@@ -17,6 +17,8 @@ int main () {
 
     for (int cap = 128; cap <= (1 << 12); cap*=2) {
 
+        clock_t start_T = clock ();
+
         Duplex dPipe (cap); // Duplex pipe c++ style structure (keyword is style)
 
         pid_t pid = fork ();
@@ -53,7 +55,7 @@ int main () {
         printf ("Left iteration with cap %d\n", cap);
 
         // basically compares sizes and calculates hash values of input and output
-        testTransmissionIntegrity (&input, &output, &result, &dPipe);
+        testTransmissionIntegrity (&input, &output, &result, &dPipe, start_T);
 
         dPipe.DTOR (); //destructs duplex pipe
     }

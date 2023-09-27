@@ -131,4 +131,4 @@ size_t getFileSize (char* fileName);
 /// @param output out file ptr
 /// @param result analisys result file ptr
 /// @param lol pipe structur (idk why i did this, i could have just created a buffer but still)
-void testTransmissionIntegrity (FILE** input, FILE** output, FILE** result, Duplex* lol);
+void testTransmissionIntegrity (FILE** input, FILE** output, FILE** result, Duplex* lol, clock_t startTime);

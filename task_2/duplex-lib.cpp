@@ -15,7 +15,7 @@ size_t getFileSize (char* fileName) {
 }
 
 //Described in hpp
-void testTransmissionIntegrity (FILE** input, FILE** output, FILE** result, Duplex* lol) {
+void testTransmissionIntegrity (FILE** input, FILE** output, FILE** result, Duplex* lol, clock_t startTime) {
 
     fclose (*output);
     *output = fopen (rngOFname, "r");
@@ -48,8 +48,8 @@ void testTransmissionIntegrity (FILE** input, FILE** output, FILE** result, Dupl
         }
     }
 
-    fprintf (*result, "For buffer size of %lu bytes:\nRead %d bytes\nWritten %d bytes\nIntegrity percent of transaction: %5.2lf\nHash value for input: %lu\nHash value for output: %lu\n------------------------\n",
-        lol->cap, sourceSize, outputSize, ((double) outputSize) / ((double) sourceSize) * 100.0, hashSource, hashOutput);
+    fprintf (*result, "For buffer size of %lu bytes:\nRead %d bytes\nWritten %d bytes\nIntegrity percent of transaction: %5.2lf\nTime consumed on transaction: %.6lf\nHash value for input: %lu\nHash value for output: %lu\n------------------------\n",
+        lol->cap, sourceSize, outputSize, ((double) outputSize) / ((double) sourceSize) * 100.0, (double)(clock() - startTime) / CLOCKS_PER_SEC, hashSource, hashOutput);
 
     fclose (*output);
 
