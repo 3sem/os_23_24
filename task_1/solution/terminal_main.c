@@ -2,19 +2,6 @@
 
 // try with /bin/ls -ltr .|grep rw|grep 1|grep 89
 
-/*
-resukt example:
-
-New used pipe descriptors: 3 4
-Input descriptor for current child process: 0
-New used pipe descriptors: 4 5
-Input descriptor for current child process: 3
-New used pipe descriptors: 3 5
-Input descriptor for current child process: 4
-New used pipe descriptors: 4 5
-Input descriptor for current child process: 3
-*/
-
 int main()
 {   
     const size_t MAX_CMD_SIZE = sysconf(_SC_ARG_MAX);
