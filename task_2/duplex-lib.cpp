@@ -1,29 +1,6 @@
 #include "duplex.hpp"
 
-FILE* generateRngFileOf5Gb () {
-
-    pid_t pid = fork ();
-
-    if (pid < 0) {
-
-        perror ("Fork gone wrong\n");
-        exit (-1);
-    }
-    if (pid == 0) {
-
-        char* const com[] = {"dd", "if=/dev/urandom", "of=" rngIFname, "bs=1G", "count=5"};
-
-        execvp (com[0], com);
-    }
-
-    waitpid (pid, NULL, 0);
-
-    FILE* retVal = fopen (rngIFname, "r");
-    assert (retVal != NULL);
-
-    return retVal;
-}
-
+//Described in hpp
 size_t getFileSize (char* fileName) {
 
     struct stat fileStat;
@@ -37,6 +14,7 @@ size_t getFileSize (char* fileName) {
     return fileStat.st_size;
 }
 
+//Described in hpp
 void testTransmissionIntegrity (FILE** input, FILE** output, FILE** result, Duplex* lol) {
 
     fclose (*output);
@@ -50,6 +28,7 @@ void testTransmissionIntegrity (FILE** input, FILE** output, FILE** result, Dupl
     size_t hashSource = 0;
     size_t hashOutput = 0;
 
+    //Counts hash of input file with hash multiplier from flog
     while (lol->read2bufFromFile (*input) > 0) {
 
         for (int i = 0; i < lol->size; i++) {
@@ -59,6 +38,7 @@ void testTransmissionIntegrity (FILE** input, FILE** output, FILE** result, Dupl
         }
     }
 
+    // -//- of output file -//-
     while (lol->read2bufFromFile (*output) > 0) {
 
         for (int i = 0; i < lol->size; i++) {
@@ -73,7 +53,9 @@ void testTransmissionIntegrity (FILE** input, FILE** output, FILE** result, Dupl
 
     fclose (*output);
 
+    // Reopens output as write file destroying it's contents
     *output = fopen (rngOFname, "w");
 
+    // resets ptr in input file
     fseek (*input, SEEK_SET, 0);
 }
