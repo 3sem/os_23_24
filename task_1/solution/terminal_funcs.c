@@ -11,7 +11,7 @@ const int CHILD_ERROR_CODE = 1;
 
 const size_t FD_SIZE = 2;
 
-char **parse_cmd(const char *arg)
+char **parse_cmd(char *arg)
 {
     char **tokens = malloc(MAX_CMD_TOKENS * sizeof(char*));
 

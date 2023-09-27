@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-char **parse_cmd(const char *arg);
+char **parse_cmd(char *arg);
 
 char **prep_cmds(const char *arg);
 
