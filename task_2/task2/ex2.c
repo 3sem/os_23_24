@@ -8,7 +8,7 @@
 #include <sys/ipc.h>
 #include <sys/shm.h>
 
-#define BUF_SIZE 4097
+#define BUF_SIZE 4096
 
 typedef struct Double_linked_pipe dlpipe;
 int child_actions(dlpipe a);
@@ -121,3 +121,7 @@ int main()
 
     return 0;
 }
+<<<<<<< HEAD
+// 134 217 728
+=======
+>>>>>>> c9b3cb4cf5d17462b909fc2a521df2a2a79239b5
