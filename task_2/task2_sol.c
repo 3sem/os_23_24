@@ -45,11 +45,11 @@ size_t receive(Pipe* pipe, int fd) {
 int main(int argc, char * argv[])
 {
     char *inname;
-    printf("Enter the name of the file:");
-    scanf("%s", inname);
+   /* printf("Enter the name of the file:");
+    scanf("%s", inname);*/
     int64_t file_size = 0;
 	struct stat buff;
-    FILE* in = fopen(inname,"r");
+    FILE* in = fopen("file.txt","r");
     fstat(fileno(in), &buff);
 	file_size = buff.st_size;
     Pipe p;
