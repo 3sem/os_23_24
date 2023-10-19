@@ -1,0 +1,6 @@
+set terminal png
+set output "res.png"
+set xlabel "NUM OF THREADS"
+set ylabel "Time"
+set title "(n,T) reaction"
+plot "res.csv" with lines
