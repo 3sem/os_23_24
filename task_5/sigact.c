@@ -1,7 +1,7 @@
 #include <signal.h>
 #include <stdio.h>
 #include <unistd.h>
-
+#include <errno.h>
 static volatile int sigPid = -2;
 int sender = 0;
 
@@ -26,10 +26,11 @@ int main()
     {
         sigaction(SIGRTMIN, &sa, NULL);
         pause();
-        if(sigPid == -1){ kill(sender, SIGRTMIN); return 0; }
+        perror("pausegot:");
+        if(sigPid == -999){ return 0; }
         printf("PID2: %d\n", sigPid);
         fwrite(&sigPid, sizeof(char), 1, out);
-        kill(sender, SIGRTMIN);
+        kill(sender, SIGRTMAX);
     }
     return 0;
 }
