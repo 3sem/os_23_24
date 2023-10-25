@@ -28,11 +28,8 @@ int main(int argc, const char **argv)
             val.sival_int = data[i];
             printf("data %d \n", data[i]);
             sigqueue(PID[0], SIGRTMIN, val);
-            //sleep(1);
             sigaction(SIGRTMIN, &sa, NULL);
             pause();
-        
-            //kill(-1, SIGKILL);
         }
     }
     val.sival_int = -1;
