@@ -46,7 +46,7 @@ int main()
     
     FILE* out = fopen("res.csv", "a+");
     perror("opening:");
-    for(NUM_THREADS = 1; NUM_THREADS <= 10000; NUM_THREADS += 10)
+    for(NUM_THREADS = 1; NUM_THREADS <= 50; NUM_THREADS += 1)
     {
         double restime = 0;
         double midres = 0;
