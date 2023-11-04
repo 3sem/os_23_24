@@ -8,9 +8,9 @@
 #include <sys/time.h>
 #include <sys/ipc.h>
 #include <sys/msg.h>
+#include <semaphore.h>
 
-
-#define MSG_SIZE  20
+#define MSG_SIZE  4096
 
 
 typedef struct msgbuf {
@@ -20,6 +20,8 @@ typedef struct msgbuf {
 
 void client()
 {
+    sem_t* sem;
+    sem = sem_open("/sem", O_CREAT | O_RDWR, S_IRUSR | S_IWUSR, 1);
     FILE* in = fopen("total.txt", "r");
     int msqid;
     int msgflg = IPC_CREAT | 0666;
@@ -44,18 +46,22 @@ void client()
     {
         sbuf.mtext[num] = '\0';
         buf_length = strlen(sbuf.mtext) + 1 ; // данные сообщения по прежнему считаем '\0'-terminated - строкой.
-        printf("sent: %s \n:", sbuf.mtext);
+
         if (msgsnd(msqid, &sbuf, buf_length, IPC_NOWAIT) < 0) {
-            printf ("%d, %d, %s, %d\n", msqid, sbuf.mtype, sbuf.mtext, buf_length);
             perror("msgsnd");
             exit(1);
         }
+        sem_wait(sem);
     }
+    sbuf.mtext[6] = "quite";
+    msgsnd(msqid, &sbuf, 6, IPC_NOWAIT);
 }
 
 void server()
 {
-    FILE* out = fopen("resqueue.txt", "wb+");
+    sem_t* sem;
+    sem = sem_open("/sem", O_CREAT | O_RDWR, S_IRUSR | S_IWUSR, 1);
+    FILE* out = fopen("resqueue.txt", "w+");
     int msqid;
     key_t key;
     message_buf  rbuf;
@@ -71,19 +77,18 @@ void server()
     
     
     while(1) {
-        //printf("pid: %d\n", getpid());
         if(msgrcv(msqid, &rbuf, MSG_SIZE + sizeof(long), 1, 0) < 0)
         {
             perror("msgrcv");
             continue;
         }
-        
-        printf("got: %s\n", rbuf.mtext);
+        if(!strcmp(rbuf.mtext, "quite")) break;
         rbuf.mtext[MSG_SIZE - 1] = '\0';
         int len = strlen(rbuf.mtext);
+        fflush(out);
         fwrite(rbuf.mtext, sizeof(char), len, out);
-        perror("fwrite");
-        //exit(1);
+        fflush(out);
+        sem_post(sem);
     }
 
     fclose(out);
@@ -92,6 +97,7 @@ void server()
 }
 
 int main() {
+    FILE *timequeue = fopen("tempqueue", "a+");
     struct timeval ts, te;
     double elapsed;
     gettimeofday(&ts, NULL);
@@ -107,6 +113,6 @@ int main() {
     gettimeofday(&te, NULL);
     elapsed = (te.tv_sec - ts.tv_sec) * 1000;
     elapsed += (te.tv_usec - ts.tv_usec) / 1000;
-    //printf("time: %lf", elapsed);
+    fprintf(timequeue, "%lf\n", elapsed);
     return 0;
 }
