@@ -4,11 +4,14 @@ int main (int argc, char* argv[]) {
 
     createFile (argc, argv);
 
-    unsigned int _cap[3] = {128, 4096, 1<<19};
+    unsigned int _cap[3] = {128, 4096, 1<<15};
+    double elapsed_times[3];
+    unsigned int resulting_hash[3];
 
-    for (int _cap_iter = 0; _cap_iter < 3; _cap_iter++) {
 
-        Dpipe duplex (_cap[_cap_iter]);
+    for (int iter = 0; iter < 3; iter++) {
+
+        Dpipe duplex (_cap[iter]);
 
         clock_t elapsed_time = clock ();
 
@@ -27,9 +30,13 @@ int main (int argc, char* argv[]) {
             FILE* output = fopen (OUTPUT_FILE_NAME, "w");
             assert (input != NULL);
 
+            setvbuf (output, NULL, _IONBF, 0);
+
             while (duplex.write2bufFromFile (input) > 0) {
 
-                flogprintf ("Child sent with ret code %llu\n", duplex.send (Dpipe::C2P));
+                size_t CHild_send_code = duplex.send (Dpipe::C2P);
+
+                flog (CHild_send_code);
 
                 duplex.recieve (Dpipe::P2C);
                 flog ("Child recieved");
@@ -59,5 +66,5 @@ int main (int argc, char* argv[]) {
         duplex.DTOR ();
     }
 
-
+//310 309
 }

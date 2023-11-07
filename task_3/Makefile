@@ -32,6 +32,11 @@ $(DEPSDIR):
 fifo.out: $(addprefix $(OBJDIR),$(FIFO_SRC:.cpp=.o) $(LIB_SRC:.cpp=.o))
 	$(CC) $(CFLAGS) $^ -o $@
 
+test:
+	make all
+	gnome-terminal --working-directory=$(CURDIR) -- watch -n 0.3 ls -l
+	./fifo.out > output.output
+
 logs:
 	for file in logs_out_*.html; do xdg-open "$$file"; done
 
@@ -40,4 +45,4 @@ clean:
 	rm -rf *.png *.dot *.o *.out *.lol* *.rng *.html
 	clear
 
-.PHONY: clean logs
+.PHONY: clean logs test

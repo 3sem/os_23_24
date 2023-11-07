@@ -5,6 +5,7 @@
 #include <time.h>
 #include <string.h>
 #include <assert.h>
+#define NDEBUG 1
 
 // DEFINE NDEBUG TO DISABLE LOGS
 
@@ -26,7 +27,7 @@ const char* getFormatIntern (const char* varType);
 
 #define getFormat(var) getFormatIntern (typeid (var).name ())
 
-
+#ifndef NDEBUG
 #define flog(a)                                                                                                    \
             {if (logOutf == NULL){                                                                                 \
                 system ("rm logs_out_*.html");                                                                     \
@@ -52,8 +53,7 @@ const char* getFormatIntern (const char* varType);
                 "Logging session at compiled time : %s %s<br><br></pre>\n\n", __TIME__, __DATE__);                 \
             }                                                                                                      \
     fprintf (logOutf, __VA_ARGS__);}
-
-#ifdef NDEBUG
+#else
 #define flog(a) ;
-#define flogFileInit ;
+#define flogprintf(...) ;
 #endif
