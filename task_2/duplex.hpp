@@ -34,7 +34,7 @@ struct Duplex {
         pipe (fd[0]);
         pipe (fd[1]);
 
-        fcntl (fd[1][0], F_SETFL, O_NONBLOCK); // Sets parent's read fd to non blocking 
+        fcntl (fd[1][0], F_SETFL, O_NONBLOCK); // Sets parent's read fd to non blocking
     }
 
     /// @brief Sends contents of buffer in certain direction
