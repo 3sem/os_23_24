@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-df_shm = pd.read_csv("tempshm")
+df_shm = pd.read_csv("shm.txt")
 df_queue = pd.read_csv("tempqueue")
 df_fifo = pd.read_csv("tempFF")
 
@@ -10,17 +10,17 @@ shm = df_shm['shm']
 queue = df_queue['queue']
 fifo = df_fifo['fifo']
 
-shm_small = shm[0] * 10**6
-shm_medium = shm[1] * 10**6
-shm_big = shm[2] * 10**6
+shm_small = (shm[0] + shm[3] + shm[6]) * 10**6 / 3
+shm_medium = (shm[1] + shm[4] + shm[7]) * 10**6 / 3
+shm_big = (shm[2] + shm[5] + shm[7]) * 10**6 / 3
 
-fifo_small = fifo[0]* 10**6
-fifo_medium = fifo[1]* 10**6
-fifo_big = fifo[2]* 10**6
+fifo_small = (fifo[0] + fifo[6] + fifo[12])* 10**6 / 3
+fifo_medium = (fifo[2] + fifo[8] + fifo[14])* 10**6 / 3
+fifo_big = (fifo[4] + fifo[10] + fifo[16])* 10**6 / 3
 
-queue_small = queue[0] * 10**6
-queue_medium = queue[1]* 10**6
-queue_big = queue[2]* 10**6
+queue_small = (queue[0] + queue[3] + queue[6]) * 10**6 / 3
+queue_medium = (queue[1] + queue[4] + queue[7]) * 10**6 / 3
+queue_big = (queue[2] + queue[5] + queue[8]) * 10**6 / 3
 
 print(shm_small, shm_medium, shm_big)
 print(fifo_small, fifo_medium, fifo_big)
