@@ -5,10 +5,11 @@ CFLAGS=-Wshadow -Winit-self -Wredundant-decls -Wcast-align -Wundef -Wfloat-equal
 OBJDIR=_objs/
 DEPSDIR=_deps/
 
-LIB_SRC=flog.cpp
-FIFO_SRC=fifo.cpp fifo_lib.cpp
+LIB_SRC=flog.cpp shm_lib.cpp
+SRC_CLIENT=shm_client.cpp
+SRC_SERVER=shm_server.cpp
 
-all: $(DEPSDIR) $(OBJDIR) fifo.out
+all: $(DEPSDIR) $(OBJDIR) shm_client.out shm_server.out
 
 # Part that generates all dependency files and object files using those
 -include $(addprefix $(DEPSDIR),*.d)
@@ -29,20 +30,23 @@ $(DEPSDIR):
 
 # End of this part (kinda standart part (i definitely should create a proj template))
 
-fifo.out: $(addprefix $(OBJDIR),$(FIFO_SRC:.cpp=.o) $(LIB_SRC:.cpp=.o))
+shm_client.out: $(addprefix $(OBJDIR),$(SRC_CLIENT:.cpp=.o) $(LIB_SRC:.cpp=.o))
 	$(CC) $(CFLAGS) $^ -o $@
 
-test:
-	make all
-	gnome-terminal --working-directory=$(CURDIR) -- watch -n 0.3 ls -l
-	./fifo.out > output.output
+shm_server.out: $(addprefix $(OBJDIR), $(SRC_SERVER:.cpp=.o) $(LIB_SRC:.cpp=.o))
+	$(CC) $(CFLAGS) $^ -o $@
 
 logs:
-	for file in logs_out_*.html; do xdg-open "$$file"; done
+	for file in logs_out*.html; do xdg-open "$$file"; done
 
+test:
+	./shm_client.out >output.output 2> client.errors & ./shm_server.out 2> server.errors
+
+test_small:
+	./shm_client.out --small >output.output 2>client.errors & ./shm_server.out 2> server.errors
 clean:
 	rm -rf $(OBJDIR) $(DEPSDIR)
-	rm -rf *.png *.dot *.o *.out *.lol* *.rng *.html
+	rm -rf *.png *.dot *.o *.out *.lol* *.rng *.html *.errors
 	clear
 
-.PHONY: clean logs test
+.PHONY: clean logs test test_small

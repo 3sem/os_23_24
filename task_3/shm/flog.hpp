@@ -5,7 +5,7 @@
 #include <time.h>
 #include <string.h>
 #include <assert.h>
-#define NDEBUG 1
+// #define NDEBUG 1
 
 // DEFINE NDEBUG TO DISABLE LOGS
 
