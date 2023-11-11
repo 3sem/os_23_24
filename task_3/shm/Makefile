@@ -39,11 +39,12 @@ shm_server.out: $(addprefix $(OBJDIR), $(SRC_SERVER:.cpp=.o) $(LIB_SRC:.cpp=.o))
 logs:
 	for file in logs_out*.html; do xdg-open "$$file"; done
 
-test:
+test: shm_client.out shm_server.out
 	./shm_client.out >output.output 2> client.errors & ./shm_server.out 2> server.errors
 
-test_small:
+test_small: shm_client.out shm_server.out
 	./shm_client.out --small >output.output 2>client.errors & ./shm_server.out 2> server.errors
+
 clean:
 	rm -rf $(OBJDIR) $(DEPSDIR)
 	rm -rf *.png *.dot *.o *.out *.lol* *.rng *.html *.errors

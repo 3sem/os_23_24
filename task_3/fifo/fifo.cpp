@@ -65,6 +65,4 @@ int main (int argc, char* argv[]) {
 
         duplex.DTOR ();
     }
-
-//310 309
 }

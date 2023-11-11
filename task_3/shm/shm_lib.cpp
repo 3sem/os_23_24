@@ -2,7 +2,7 @@
 
 const char SHM_NAME[] = "shmat_of_memory";
 const size_t SHM_SIZE[] = {128, 4096, 1<<15};
-const int UPPER_WAIT_LIMIT = 1000000000;
+const long long UPPER_WAIT_LIMIT = 1000000000;
 
 /// @brief Generates file of predetermined size with random contents
 /// @param argc argc from main
@@ -49,7 +49,7 @@ char* createShm (size_t size) {
     if (ftruncate (shmFd, size) < 0) {
 
         perror ("Some error during ftruncate");
-        exit (42);
+        return NULL;
     }
 
     void* ptr = mmap (0, size, PROT_READ | PROT_WRITE, MAP_SHARED, shmFd, 0);
@@ -69,12 +69,12 @@ char* createShm (size_t size) {
 /// @note If exceeds number of UPPER_WAIT_LIMIT (~10 seconds) iterations then stops the program
 void wait4Flag (char* flag, FlagValues waitTarget) {
 
-    for (volatile int i = 0; i <= UPPER_WAIT_LIMIT and *flag != waitTarget; i++) {
+    for (volatile int i = 0; i <= UPPER_WAIT_LIMIT and (*flag & waitTarget) == 0; i++) {
 
         if (i == UPPER_WAIT_LIMIT) {
 
-            perror ("Exceeded wait limit for writing to file, exiting process");
-            *flag = EOF_MET;
+            perror ("Exceeded wait limit, exiting process");
+            *flag = FL_EOF;
             exit (42);
         }
     }

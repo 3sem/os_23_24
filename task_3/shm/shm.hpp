@@ -17,7 +17,7 @@
 
 extern const char SHM_NAME[];
 extern const size_t SHM_SIZE[];
-extern const int UPPER_WAIT_LIMIT;
+extern const long long UPPER_WAIT_LIMIT;
 
 #define SMALL_FILE_COUNT "128"
 #define SMALL_FILE_BS "128"
@@ -28,11 +28,11 @@ extern const int UPPER_WAIT_LIMIT;
 
 enum FlagValues {
 
-    NUL = 0,
-    READ = 1,
-    WROTE = 2,
-    EOF_MET = 3,
-    EOF_WRITTEN = 4
+    FL_NULL = 0,
+    FL_READ = 1 << 0,
+    FL_WROTE = 1 << 1,
+    FL_EOF = 1 << 2,
+    FL_EOF_CONFIRMED = 1 << 3
 };
 
 size_t generateFile (int argc, char* argv[]);

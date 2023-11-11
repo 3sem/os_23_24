@@ -9,23 +9,25 @@ int main () {
         char* flag = buf + cap * sizeof (char);
         int* size = (int*) flag + sizeof (char);
 
-        *flag = NUL;
+        *flag = FL_NULL;
 
         FILE* output = fopen (OUTPUT_FILE_NAME, "w");
         assert (output != NULL);
 
-        while (*flag != EOF_MET) {
+        while (*flag != FL_EOF) {
 
-            wait4Flag (flag, READ);
+            wait4Flag (flag, (FlagValues)(FL_READ | FL_EOF));
 
-            *size = fwrite (buf, sizeof (char), *size, output);
+            if (*flag == FL_EOF) break;
 
-            *flag = WROTE;
+            fwrite (buf, sizeof (char), *size, output);
+
+            *flag = FL_WROTE;
         }
 
         fclose (output);
 
-        *flag = EOF_WRITTEN;
+        *flag = FL_EOF_CONFIRMED;
 
         shm_unlink (SHM_NAME);
     }

@@ -12,36 +12,33 @@ int main (int argc, char* argv[]) {
         char* buf = createShm (cap + sizeof (char) + sizeof (int));// This may impact performance as hell but it looks funny
         char* flag = buf + cap * sizeof (char);
         int* size = (int*) flag + sizeof (char);
+        for (int i = 0; i < cap; i++) buf[i] = '\0';
 
-        *flag = NUL;
+        *flag = FL_NULL;
 
         FILE* input = fopen (TEST_FILE_NAME, "r");
         assert (input != NULL);
 
-        while (*size = fread (buf, sizeof (char), cap, input) > 0 and *flag != EOF_MET) {
+        while (true) {
 
-            *flag = READ;
+            *size = fread (buf, sizeof (char), cap, input);
 
-            wait4Flag (flag, WROTE);
-        }
+            if (*size == 0) break;
 
-        if (*flag == EOF_MET) {
+            *flag = FL_READ;
 
-            perror ("Some error occured, stopping all processes");
-            *flag = EOF_MET;
-            exit (42);
+            wait4Flag (flag, FL_WROTE);
         }
 
         if (feof (input) == 0) {
 
-            perror ("Some error during reading from file");
-            *flag = EOF_MET;
+            perror ("Some error in fread");
             exit (42);
         }
 
-        *flag = EOF_MET;
+        *flag = FL_EOF;
 
-        wait4Flag (flag, EOF_WRITTEN);
+        wait4Flag (flag, FL_EOF_CONFIRMED);
 
         printf ("Test with cap %d finished\n", cap);
 
