@@ -29,6 +29,6 @@ int main () {
 
         *flag = FL_EOF_CONFIRMED;
 
-        shm_unlink (SHM_NAME);
     }
+    shm_unlink (SHM_NAME);
 }

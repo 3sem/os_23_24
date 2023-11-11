@@ -45,7 +45,7 @@ int main (int argc, char* argv[]) {
         printf ("Elapsed time : %13.3lf ms\n", (double)(clock () - startTime) * 1000 / CLOCKS_PER_SEC);
 
         fclose (input);
-
-        shm_unlink (SHM_NAME);
     }
+
+    shm_unlink (SHM_NAME);
 }
