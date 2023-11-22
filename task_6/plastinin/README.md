@@ -25,7 +25,7 @@ Where
     2. `pid` - PID of the process, repository of which needed to backup
     3. `<dump directory>` - full path of the backup directory
 
-Program will create `<dump directory>` and store all text files from `<pid> directory`, that has been modified or created.
+Program will create `<dump directory>`, then, if the file has been modified or created, it will create backup for it and also save diff between current and previous version in a directory with the same name as file.
 
 ### Known problems
 

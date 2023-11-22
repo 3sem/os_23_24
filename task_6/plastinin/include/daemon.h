@@ -23,6 +23,8 @@ void sigusr1_handler(int sig, siginfo_t* info, void* context);
 
 void add_watch_dir(const char* wd, Config* cfg, FILE* dump);
 
-int backup_file(char* dir_path, char* name, Config* cfg, FILE* dump);
+int backup_mod_file(char* dir_path, char* name, Config* cfg, FILE* dump);
+
+int backup_crt_file(char* dir_path, char* name, Config* cfg, FILE* dump);
 
 int create_new_backup(char* path, char* name, Config* cfg, FILE* dump);

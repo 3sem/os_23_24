@@ -9,6 +9,7 @@
 #include <errno.h>
 #include <signal.h>
 #include <dirent.h>
+#include <sys/time.h>
 #include <linux/limits.h>
 #include "../include/daemon.h"
 
@@ -93,12 +94,12 @@ int monitor_proc(char* cfg_file) {
             if (event->len) {
                 if (event->mask & IN_CREATE) {
                     DBG fprintf(dump, "The file %s was created.\n", event->name);
-                    backup_file(pathname, event->name, &cfg, dump);
+                    backup_crt_file(pathname, event->name, &cfg, dump);
                 } else if (event->mask & IN_DELETE) {
                     DBG fprintf(dump, "The file %s was deleted.\n", event->name);
                 } else if (event->mask & IN_MODIFY) {
                     DBG fprintf(dump, "The file %s was modified.\n", event->name);
-                    backup_file(cwd, event->name, &cfg, dump);
+                    backup_mod_file(cwd, event->name, &cfg, dump);
                 }
             }
             i += EVENT_SIZE + event->len;
@@ -117,7 +118,6 @@ void add_watch_dir(const char* wd, Config* cfg, FILE* dump) {
     DIR* dir = opendir(wd);
 
     if (dir) {
-        DBG fprintf(dump, "GOING TO ADD WATCH DIR %s\n", wd);
         int inotify_wd = inotify_add_watch(cfg->inotify_fd, wd, IN_MODIFY | IN_CREATE | IN_DELETE);
 
         cfg->inotify_wds[cfg->inotify_size] = inotify_wd;
@@ -151,7 +151,7 @@ void add_watch_dir(const char* wd, Config* cfg, FILE* dump) {
     return;
 }
 
-int backup_file(char* dir_path, char* name, Config* cfg, FILE* dump) {
+int backup_crt_file(char* dir_path, char* name, Config* cfg, FILE* dump) {
     char file_name[PATH_MAX] = "";
     char cmd[ARG_MAX] = "";
     sprintf(file_name, "%s/find_file", cfg->dump_dir);
@@ -166,7 +166,43 @@ int backup_file(char* dir_path, char* name, Config* cfg, FILE* dump) {
     fscanf(find_file, "%s", file_name);
     fclose(find_file);
 
-    sprintf(cmd, "cp %s %s/%s", file_name, cfg->dump_dir, name);
+    sprintf(cmd, "mkdir %s/%s", cfg->dump_dir, name);
+    system(cmd);
+
+    sprintf(cmd, "cp %s %s/%s.backup", file_name, cfg->dump_dir, name);
+    system(cmd);
+
+    return 0;
+}
+
+int backup_mod_file(char* dir_path, char* name, Config* cfg, FILE* dump) {
+    char file_name[PATH_MAX] = "";
+    char cmd[ARG_MAX] = "";
+    sprintf(file_name, "%s/find_file", cfg->dump_dir);
+
+    FILE* find_file = fopen(file_name, "w");
+    fclose(find_file);
+    chdir(dir_path);
+    sprintf(cmd, "find -name %s > %s", name, file_name);
+    system(cmd);
+
+    find_file = fopen(file_name, "r");
+    fscanf(find_file, "%s", file_name);
+    fclose(find_file);
+
+    sprintf(cmd, "mkdir %s/%s", cfg->dump_dir, name);
+    system(cmd);
+
+    timeval diff_time;
+    gettimeofday(&diff_time, NULL);
+    char diff_file[ARG_MAX];
+
+    sprintf(diff_file, "%ld_%ld.diff", diff_time.tv_sec, diff_time.tv_usec);
+
+    sprintf(cmd, "diff %s %s/%s.backup > %s/%s/%s", file_name, cfg->dump_dir, name, cfg->dump_dir, name, diff_file);
+    system(cmd);
+
+    sprintf(cmd, "cp %s %s/%s.backup", file_name, cfg->dump_dir, name);
     system(cmd);
 
     return 0;
