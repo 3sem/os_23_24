@@ -1,3 +1,4 @@
+#include <csignal>
 #include <cstdlib>
 #include <stdio.h>
 #include <string.h>
@@ -28,7 +29,7 @@
 #define ARG_MAX 2097152
 bool CHANGE_CFG = false;
 
-void sigusr1_handler(int sig, siginfo_t* info, void* context) {
+void sig_handler(int sig, siginfo_t* info, void* context) {
     CHANGE_CFG = true;
 }
 
@@ -65,9 +66,13 @@ int monitor_proc(char* cfg_file) {
 
     struct sigaction sa;
     sa.sa_flags = SA_SIGINFO;
-    sa.sa_sigaction = sigusr1_handler;
-    sigaction(SIGUSR1, &sa, NULL);
+    sa.sa_sigaction = sig_handler;
 
+    sigaction(SIGUSR1, &sa, NULL);
+    sigaction(SIGINT, &sa, NULL);
+    sigaction(SIGUSR2, &sa, NULL);
+    sigaction(SIGSTOP, &sa, NULL);
+    sigaction(SIGTERM, &sa, NULL);
 
     fclose(dump);
 

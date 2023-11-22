@@ -19,7 +19,7 @@ int cfg_ctor(Config* cfg, char* cfg_file_name);
 
 int cfg_detor(Config* cfg);
 
-void sigusr1_handler(int sig, siginfo_t* info, void* context);
+void sig_handler(int sig, siginfo_t* info, void* context);
 
 void add_watch_dir(const char* wd, Config* cfg, FILE* dump);
 
