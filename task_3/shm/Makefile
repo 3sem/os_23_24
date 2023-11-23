@@ -42,12 +42,12 @@ logs:
 test:
 	make all
 	gnome-terminal --working-directory=$(CURDIR) -- watch -n 0.3 ls -l
-	./shm_client.out >output.output 2> client.errors & ./shm_server.out 2> server.errors
+	./shm_server.out 2> server.errors & ./shm_client.out >output.output 2> client.errors &
 
 test_small:
 	make all
 	gnome-terminal --working-directory=$(CURDIR) -- watch -n 0.3 ls -l
-	./shm_client.out --small >output.output 2>client.errors & ./shm_server.out 2> server.errors
+	./shm_server.out 2> server.errors & ./shm_client.out --small >output.output 2>client.errors &
 
 clean:
 	rm -rf $(OBJDIR) $(DEPSDIR)

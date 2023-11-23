@@ -34,7 +34,8 @@ enum FlagValues {
     FL_EOF = 1 << 2,
     FL_EOF_CONFIRMED = 1 << 3,
     FL_NO_WAIT_LIMIT = 1 << 4,
-    FL_START_TEST = 1 << 5
+    FL_SERVER_READY = 1 << 5,
+    FL_CLIENT_READY = 1 << 6
 };
 
 size_t generateFile (int argc, char* argv[]);

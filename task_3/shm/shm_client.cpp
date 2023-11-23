@@ -4,6 +4,8 @@ int main (int argc, char* argv[]) {
 
     generateFile (argc, argv);
 
+    flog ("This is a client");
+
     for (int iter = 0; iter < 3; iter++) {
 
         clock_t startTime = clock ();
@@ -14,10 +16,15 @@ int main (int argc, char* argv[]) {
         int* size = (int*) flag + sizeof (char);
         for (int i = 0; i < cap; i++) buf[i] = '\0';
 
-        *flag = FL_NULL;
 
         FILE* input = fopen (TEST_FILE_NAME, "r");
         assert (input != NULL);
+
+        *flag |= FL_NO_WAIT_LIMIT | FL_CLIENT_READY;
+
+        wait4Flag (flag, FL_SERVER_READY);
+
+        flog ("Client started");
 
         while (true) {
 

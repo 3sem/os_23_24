@@ -69,9 +69,16 @@ char* createShm (size_t size) {
 /// @note If exceeds number of UPPER_WAIT_LIMIT (~10 seconds) iterations then stops the program
 void wait4Flag (char* flag, FlagValues waitTarget) {
 
-    for (volatile int i = 0; i <= UPPER_WAIT_LIMIT and (*flag & waitTarget) == 0; i++) {
+    char fl = (*flag == FL_NO_WAIT_LIMIT ? 1 : 0);
 
-        if (i == UPPER_WAIT_LIMIT and *flag != FL_NO_WAIT_LIMIT) {
+    flogprintf ("Flag value on wait start: %16.X\n", *flag);
+
+    for (volatile long long i = 0; i <= UPPER_WAIT_LIMIT and ((*flag) & waitTarget) == 0; i++) {
+
+        if (fl) i--;
+        if (i % 10000 == 0) flogprintf ("Flag value: %16.X\n", *flag);
+
+        if (i == UPPER_WAIT_LIMIT) {
 
             perror ("Exceeded wait limit, exiting process");
             *flag = FL_EOF;

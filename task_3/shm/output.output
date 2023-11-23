@@ -1,0 +1,6 @@
+Test with cap 128 finished
+Elapsed time :         0.732 ms
+Test with cap 4096 finished
+Elapsed time :         0.203 ms
+Test with cap 32768 finished
+Elapsed time :         0.258 ms
