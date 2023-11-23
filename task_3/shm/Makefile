@@ -39,10 +39,14 @@ shm_server.out: $(addprefix $(OBJDIR), $(SRC_SERVER:.cpp=.o) $(LIB_SRC:.cpp=.o))
 logs:
 	for file in logs_out*.html; do xdg-open "$$file"; done
 
-test: shm_client.out shm_server.out
+test:
+	make all
+	gnome-terminal --working-directory=$(CURDIR) -- watch -n 0.3 ls -l
 	./shm_client.out >output.output 2> client.errors & ./shm_server.out 2> server.errors
 
-test_small: shm_client.out shm_server.out
+test_small:
+	make all
+	gnome-terminal --working-directory=$(CURDIR) -- watch -n 0.3 ls -l
 	./shm_client.out --small >output.output 2>client.errors & ./shm_server.out 2> server.errors
 
 clean:

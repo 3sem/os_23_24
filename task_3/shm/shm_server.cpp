@@ -9,10 +9,12 @@ int main () {
         char* flag = buf + cap * sizeof (char);
         int* size = (int*) flag + sizeof (char);
 
-        *flag = FL_NULL;
+        *flag = FL_NO_WAIT_LIMIT;
 
         FILE* output = fopen (OUTPUT_FILE_NAME, "w");
         assert (output != NULL);
+
+        wait4Flag (flag, FL_NULL);
 
         while (*flag != FL_EOF) {
 
@@ -28,7 +30,6 @@ int main () {
         fclose (output);
 
         *flag = FL_EOF_CONFIRMED;
-
     }
     shm_unlink (SHM_NAME);
 }

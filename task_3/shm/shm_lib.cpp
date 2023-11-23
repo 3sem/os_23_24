@@ -71,7 +71,7 @@ void wait4Flag (char* flag, FlagValues waitTarget) {
 
     for (volatile int i = 0; i <= UPPER_WAIT_LIMIT and (*flag & waitTarget) == 0; i++) {
 
-        if (i == UPPER_WAIT_LIMIT) {
+        if (i == UPPER_WAIT_LIMIT and *flag != FL_NO_WAIT_LIMIT) {
 
             perror ("Exceeded wait limit, exiting process");
             *flag = FL_EOF;
