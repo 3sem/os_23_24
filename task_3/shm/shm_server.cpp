@@ -7,26 +7,38 @@ int main () {
     for (int iter = 0; iter < 3; iter++) {
 
         size_t cap = SHM_SIZE[iter];
-        char* buf = createShm (cap + sizeof (char) + sizeof (int));// This may impact performance as hell but it looks funny
-        char* flag = buf + cap * sizeof (char);
-        int* size = (int*) flag + sizeof (char);
+        flog (cap);
 
-        *flag |= FL_NO_WAIT_LIMIT | FL_SERVER_READY;
+        char* buf = createShm (cap + sizeof (char) + sizeof (int));// This may impact performance as hell but it looks funny
+        assert (buf != NULL);
+
+        char* flag = buf + cap;
+        int* size = (int*) (flag + 1);
+
+        *flag = FL_NULL;
 
         FILE* output = fopen (OUTPUT_FILE_NAME, "w");
         assert (output != NULL);
+
+        *flag |= (FL_NO_WAIT_LIMIT | FL_SERVER_READY);
 
         wait4Flag (flag, FL_CLIENT_READY); // waits for client process to finish setup
 
         flog ("Server started");
 
-        while (*flag != FL_EOF) {
+        while ((*flag & (FL_EOF | FL_ERROR)) == 0) {
 
             wait4Flag (flag, (FlagValues)(FL_READ | FL_EOF));
 
-            if (*flag == FL_EOF) break;
+            if (*flag & FL_ERROR) exit (42);
+
+            flogFlag (flag);
+            flog (*size);
+            flog (buf);
 
             fwrite (buf, sizeof (char), *size, output);
+
+            if (*flag & FL_EOF) break;
 
             *flag = FL_WROTE;
         }

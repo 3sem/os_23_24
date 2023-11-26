@@ -69,20 +69,37 @@ char* createShm (size_t size) {
 /// @note If exceeds number of UPPER_WAIT_LIMIT (~10 seconds) iterations then stops the program
 void wait4Flag (char* flag, FlagValues waitTarget) {
 
-    char fl = (*flag == FL_NO_WAIT_LIMIT ? 1 : 0);
+    char fl = (*flag) & FL_NO_WAIT_LIMIT;
 
-    flogprintf ("Flag value on wait start: %16.X\n", *flag);
+    flogFlag (flag);
 
-    for (volatile long long i = 0; i <= UPPER_WAIT_LIMIT and ((*flag) & waitTarget) == 0; i++) {
+    for (volatile long long i = 0; (fl or i <= UPPER_WAIT_LIMIT) and ((*flag) & (waitTarget | FL_ERROR)) == 0; i++) {
 
-        if (fl) i--;
-        if (i % 10000 == 0) flogprintf ("Flag value: %16.X\n", *flag);
+        if (i % 1000000000ll == 0) flogFlag (flag);
 
-        if (i == UPPER_WAIT_LIMIT) {
+        if (i == UPPER_WAIT_LIMIT and !fl) {
 
             perror ("Exceeded wait limit, exiting process");
-            *flag = FL_EOF;
+            *flag = FL_ERROR;
             exit (42);
         }
     }
+}
+
+void flogFlag (char* flag) {
+
+    assert (flag != NULL);
+
+    flogprintf ("Flag value :");
+
+    if (*flag == FL_NULL) flogprintf (" FL_NULL");
+    if (*flag & FL_READ) flogprintf (" FL_READ");
+    if (*flag & FL_WROTE) flogprintf (" FL_WROTE");
+    if (*flag & FL_EOF) flogprintf (" FL_EOF");
+    if (*flag & FL_EOF_CONFIRMED) flogprintf (" FL_EOF_CONFIRMED");
+    if (*flag & FL_NO_WAIT_LIMIT) flogprintf (" FL_NO_WAIT_LIMIT");
+    if (*flag & FL_SERVER_READY) flogprintf (" FL_SERVER_READY");
+    if (*flag & FL_CLIENT_READY) flogprintf (" FL_CLIENT_READY");
+
+    flogprintf (";\n");
 }

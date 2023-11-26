@@ -50,7 +50,6 @@ void flogIntern (const void* val, const char* varType, const char* varName, size
 
     fprintf (logOutf, "<pre>In file %s, function %s, line %u : %s = ", fileName, funcName, line, varName);
 
-
     if (!strcmp (varType, "Pc") || !strcmp (varType, "PKc")) fprintf (logOutf, "<%s>", *((const char**) val));
     else if (varType[0] == 'P') fprintf (logOutf, "0x%p", *(void**)val);
 

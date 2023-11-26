@@ -40,18 +40,24 @@ logs:
 	for file in logs_out*.html; do xdg-open "$$file"; done
 
 test:
+	rm -rf logs_out_*.html
 	make all
 	gnome-terminal --working-directory=$(CURDIR) -- watch -n 0.3 ls -l
 	./shm_server.out 2> server.errors & ./shm_client.out >output.output 2> client.errors &
 
 test_small:
+	rm -rf logs_out_*.html
 	make all
 	gnome-terminal --working-directory=$(CURDIR) -- watch -n 0.3 ls -l
 	./shm_server.out 2> server.errors & ./shm_client.out --small >output.output 2>client.errors &
+
+check:
+	code *.output
+	sha256sum *.rng
 
 clean:
 	rm -rf $(OBJDIR) $(DEPSDIR)
 	rm -rf *.png *.dot *.o *.out *.lol* *.rng *.html *.errors
 	clear
 
-.PHONY: clean logs test test_small
+.PHONY: clean logs test test_small check

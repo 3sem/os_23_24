@@ -35,7 +35,8 @@ enum FlagValues {
     FL_EOF_CONFIRMED = 1 << 3,
     FL_NO_WAIT_LIMIT = 1 << 4,
     FL_SERVER_READY = 1 << 5,
-    FL_CLIENT_READY = 1 << 6
+    FL_CLIENT_READY = 1 << 6,
+    FL_ERROR = 1 << 7
 };
 
 size_t generateFile (int argc, char* argv[]);
@@ -43,3 +44,5 @@ size_t generateFile (int argc, char* argv[]);
 char* createShm (size_t size);
 
 void wait4Flag (char* flag, FlagValues waitTarget);
+
+void flogFlag (char* flag);

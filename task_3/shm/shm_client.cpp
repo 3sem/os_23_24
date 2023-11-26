@@ -11,22 +11,29 @@ int main (int argc, char* argv[]) {
         clock_t startTime = clock ();
 
         size_t cap = SHM_SIZE[iter];
-        char* buf = createShm (cap + sizeof (char) + sizeof (int));// This may impact performance as hell but it looks funny
-        char* flag = buf + cap * sizeof (char);
-        int* size = (int*) flag + sizeof (char);
-        for (int i = 0; i < cap; i++) buf[i] = '\0';
+        flog (cap);
 
+        char* buf = createShm (cap + sizeof (char) + sizeof (int));// This may impact performance as hell but it looks funny
+        assert (buf != NULL);
+
+        char* flag = buf + cap * sizeof (char);
+        int* size = (int*) (flag + 1);
+
+        for (int i = 0; i < cap; i++) buf[i] = '\0';
+        flog (buf);
 
         FILE* input = fopen (TEST_FILE_NAME, "r");
         assert (input != NULL);
 
-        *flag |= FL_NO_WAIT_LIMIT | FL_CLIENT_READY;
+        *flag |= (FL_NO_WAIT_LIMIT | FL_CLIENT_READY);
 
         wait4Flag (flag, FL_SERVER_READY);
 
         flog ("Client started");
 
-        while (true) {
+        *flag = FL_NULL;
+
+        while ((*flag & FL_ERROR) == 0) {
 
             *size = fread (buf, sizeof (char), cap, input);
 
@@ -34,12 +41,21 @@ int main (int argc, char* argv[]) {
 
             *flag = FL_READ;
 
+            flogFlag (flag);
+            flog (*size);
+            flog (buf);
+
             wait4Flag (flag, FL_WROTE);
+
+            if (*flag == FL_ERROR) exit (42);
         }
 
         if (feof (input) == 0) {
 
             perror ("Some error in fread");
+            flog ("Error occured, leaving");
+            flogFlag (flag);
+            *flag = FL_ERROR;
             exit (42);
         }
 

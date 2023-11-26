@@ -30,10 +30,9 @@ const char* getFormatIntern (const char* varType);
 #ifndef NDEBUG
 #define flog(a)                                                                                                    \
             {if (logOutf == NULL){                                                                                 \
-                system ("rm logs_out_*.html");                                                                     \
                 char file_name[30] = "";                                                                           \
                 sprintf (file_name, "logs_out_%lu.html", getpid ());                                               \
-                logOutf = fopen (file_name, "w");                                                            \
+                logOutf = fopen (file_name, "w");                                                                  \
                 setvbuf (logOutf, NULL, _IONBF, 0);                                                                \
                 fprintf (logOutf, "<pre>----------------------------------------\n"                                \
                 "<style> body {padding: 25px; background-color: #252525; color: white; font-size: 25px;} </style>" \
@@ -43,10 +42,9 @@ const char* getFormatIntern (const char* varType);
 
 #define flogprintf(...)                                                                                            \
     {if (logOutf == NULL){                                                                                         \
-                system ("rm logs_out_*.html");                                                                     \
                 char file_name[30] = "";                                                                           \
                 sprintf (file_name, "logs_out_%lu.html", getpid ());                                               \
-                logOutf = fopen (file_name, "w");                                                            \
+                logOutf = fopen (file_name, "w");                                                                  \
                 setvbuf (logOutf, NULL, _IONBF, 0);                                                                \
                 fprintf (logOutf, "<pre>----------------------------------------\n"                                \
                 "<style> body {padding: 25px; background-color: #252525; color: white; font-size: 25px;} </style>" \
