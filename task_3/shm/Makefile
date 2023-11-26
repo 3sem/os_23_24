@@ -43,17 +43,17 @@ test:
 	rm -rf logs_out_*.html
 	make all
 	gnome-terminal --working-directory=$(CURDIR) -- watch -n 0.3 ls -l
-	./shm_server.out 2> server.errors & ./shm_client.out >output.output 2> client.errors &
+	./shm_server.out 2> server.errors & ./shm_client.out >output.output 2> client.errors
+	sha256sum *.rng >> output.output
+	code output.output
 
 test_small:
 	rm -rf logs_out_*.html
 	make all
 	gnome-terminal --working-directory=$(CURDIR) -- watch -n 0.3 ls -l
-	./shm_server.out 2> server.errors & ./shm_client.out --small >output.output 2>client.errors &
-
-check:
-	code *.output
-	sha256sum *.rng
+	./shm_server.out 2> server.errors & ./shm_client.out --small >output.output 2>client.errors
+	sha256sum *.rng >> output.output
+	code output.output
 
 clean:
 	rm -rf $(OBJDIR) $(DEPSDIR)

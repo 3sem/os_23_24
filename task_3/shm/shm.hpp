@@ -19,7 +19,7 @@ extern const char SHM_NAME[];
 extern const size_t SHM_SIZE[];
 extern const long long UPPER_WAIT_LIMIT;
 
-#define SMALL_FILE_COUNT "128"
+#define SMALL_FILE_COUNT "512"
 #define SMALL_FILE_BS "128"
 #define BIG_FILE_COUNT "5"
 #define BIG_FILE_BS "1G"
