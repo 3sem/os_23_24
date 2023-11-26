@@ -20,7 +20,7 @@ size_t generateFile (int argc, char* argv[]) {
 
     sprintf (cmd, "dd if=/dev/urandom of=%s bs=%s count=%s", TEST_FILE_NAME,
             (fl ? SMALL_FILE_BS : BIG_FILE_BS),
-                (fl ? SMALL_FILE_BS : BIG_FILE_BS));
+                (fl ? SMALL_FILE_COUNT : BIG_FILE_COUNT));
 
     system (cmd);
 
