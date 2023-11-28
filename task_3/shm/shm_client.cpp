@@ -6,7 +6,7 @@ int main (int argc, char* argv[]) {
 
     flog ("This is a client");
 
-    for (int iter = 0; iter < 3; iter++) {
+    for (int iter = 0; iter < CAP; iter++) {
 
         clock_t startTime = clock ();
 
@@ -29,9 +29,9 @@ int main (int argc, char* argv[]) {
 
         wait4Flag (flag, FL_SERVER_READY);
 
-        flog ("Client started");
+        *flag = FL_CLIENT_READY; // This line seems to be the only one to fix the code
 
-        *flag = FL_NULL;
+        flog ("Client started");
 
         while ((*flag & FL_ERROR) == 0) {
 
@@ -40,8 +40,6 @@ int main (int argc, char* argv[]) {
             if (*size == 0) break;
 
             *flag = FL_READ;
-
-            flogFlag (flag);
             flog (*size);
             flog (buf);
 

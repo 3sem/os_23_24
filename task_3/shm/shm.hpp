@@ -16,6 +16,7 @@
 #include "flog.hpp" //a legacy logging + hash microlibrary by me
 
 extern const char SHM_NAME[];
+extern const int CAP;
 extern const size_t SHM_SIZE[];
 extern const long long UPPER_WAIT_LIMIT;
 

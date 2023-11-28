@@ -4,7 +4,7 @@ int main () {
 
     flog ("This is a server");
 
-    for (int iter = 0; iter < 3; iter++) {
+    for (int iter = 0; iter < CAP; iter++) {
 
         size_t cap = SHM_SIZE[iter];
         flog (cap);
@@ -32,7 +32,6 @@ int main () {
 
             if (*flag & FL_ERROR) exit (42);
 
-            flogFlag (flag);
             flog (*size);
             flog (buf);
 

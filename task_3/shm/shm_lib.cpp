@@ -1,6 +1,7 @@
 #include "shm.hpp"
 
 const char SHM_NAME[] = "shmat_of_memory";
+const int CAP = 3;
 const size_t SHM_SIZE[] = {128, 4096, 1<<15};
 const long long UPPER_WAIT_LIMIT = 1000000000;
 
