@@ -19,7 +19,7 @@ int main()
     char buf[BUFFERSIZE];
     char ans[BUFFERSIZE];
 
-    sprintf(buf, "OFF");
+    sprintf(buf, "REGISTER 1.fifo 2.fifo");
     write(fd_out, buf, strlen(buf));
     int fd_in = open(FIFO_IN, O_RDONLY);
 

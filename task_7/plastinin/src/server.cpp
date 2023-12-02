@@ -19,6 +19,8 @@ int server_ctor(Server* serv) {
 
     serv->off = false;
 
+    serv->thpool = thpool_init(10);
+
     return 0;
 }
 
@@ -140,13 +142,12 @@ int handle_request(Server* serv, int client_num) {
     arg.fifo_name = serv->clients[client_num].out_name;
     arg.serv = serv;
 
-    pthread_t tid;
-    pthread_create(&tid, NULL, &send_file, (void*)(&arg));
+    thpool_add_work(serv->thpool, &send_file, (void*)&arg);
 
     return 0;
 }
 
-void* send_file(void* args) {
+void send_file(void* args) {
     Arg* arg = (Arg*) args;
     Server* serv = arg->serv;
 
@@ -156,13 +157,13 @@ void* send_file(void* args) {
     FILE* file = fopen(arg->file_name, "r");
 
     if (file == NULL) {
-        return NULL;
+        return;
     }
 
     int fifo_fd = open(arg->fifo_name, O_WRONLY);
 
     if (fifo_fd == -1) {
-        return NULL;
+        return;
     }
 
     while((num = fread(buffer, sizeof(char), BUFFERSIZE - 1, file)) > 0) {
@@ -172,7 +173,7 @@ void* send_file(void* args) {
 
     close(fifo_fd);
 
-    return NULL;
+    return;
 }
 
 int server_dtor(Server* serv) {
@@ -183,6 +184,8 @@ int server_dtor(Server* serv) {
     for (int i = 0; i < serv->clients_num; i++) {
         free(serv->clients[i].out_name);
     }
+
+    thpool_destroy(serv->thpool);
 
     return 0;
 }
