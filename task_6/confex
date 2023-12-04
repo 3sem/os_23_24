@@ -1,0 +1,5 @@
+pid              =       80
+address          =       /home/egor/infa/homework/os_23_24/task_6/
+time_delta       =       5
+# field -- address,  means the address where backup files will be saved
+#time_delta account for frequency of scanning directory in seconds
