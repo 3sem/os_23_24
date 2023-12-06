@@ -25,7 +25,7 @@ int main() {
     LOG1("Set rfds\n\n");
 
     while(!serv.off) {
-        int ret = select(serv.reg_fd + 2, &rfds, NULL, NULL, NULL);
+        int ret = select(max_rfd(&serv) + 1, &rfds, NULL, NULL, NULL);
 
         if (ret) {
             LOG1("Got something\n");
@@ -34,6 +34,7 @@ int main() {
                 handle_cmd(&serv);
             }
             else {
+                LOG1("Clients num = %d\n" COMMA serv.clients_num);
                 for (int i = 0; i < serv.clients_num; i++) {
                     if (FD_ISSET(serv.clients[i].in_fd, &rfds)) {
                         LOG1("Got request from client %d\n" COMMA i);
@@ -42,7 +43,6 @@ int main() {
                 }
             }
         }
-
         initialize_rfds(&serv, &rfds);
     }
 

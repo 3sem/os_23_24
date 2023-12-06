@@ -47,6 +47,8 @@ int server_dtor(Server* serv);
 
 int handle_cmd(Server* serv);
 
+int max_rfd(Server* serv);
+
 int initialize_rfds(Server* serv, fd_set* rfds);
 
 int handle_request(Server* serv, int client_num);

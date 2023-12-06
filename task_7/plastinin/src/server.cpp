@@ -189,3 +189,15 @@ int server_dtor(Server* serv) {
 
     return 0;
 }
+
+int max_rfd(Server* serv) {
+    int max_rfd = serv->reg_fd;
+
+    for (int i = 0; i < serv->clients_num; i++) {
+        if (serv->clients[i].in_fd > max_rfd) {
+            max_rfd = serv->clients[i].in_fd;
+        }
+    }
+
+    return max_rfd;
+}
