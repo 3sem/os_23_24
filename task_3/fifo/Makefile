@@ -33,9 +33,18 @@ fifo.out: $(addprefix $(OBJDIR),$(FIFO_SRC:.cpp=.o) $(LIB_SRC:.cpp=.o))
 	$(CC) $(CFLAGS) $^ -o $@
 
 test:
+	rm -rf logs_out_*.html *.errors
 	make all
-	gnome-terminal --working-directory=$(CURDIR) -- watch -n 0.3 ls -l
 	./fifo.out > output.output
+	sha256sum *.rng >> output.output
+	code output.output
+
+test_small:
+	rm -rf logs_out_*.html *.errors
+	make all
+	./fifo.out --small > output.output
+	sha256sum *.rng >> output.output
+	code output.output
 
 logs:
 	for file in logs_out_*.html; do xdg-open "$$file"; done
