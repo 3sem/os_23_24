@@ -18,7 +18,6 @@ int main (int argc, char **argv)
     char client_queue_name [64];
     mqd_t qd_server, qd_client;   // queue descriptors
 
-
     // create the client queue for receiving messages from server
     sprintf (client_queue_name, "/sp-example-client-%d", getpid ());
 
