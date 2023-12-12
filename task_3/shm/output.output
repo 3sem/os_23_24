@@ -1,8 +1,8 @@
 Test with cap 128 finished
-Elapsed time :         0.944 ms
+Elapsed time :     26798.364 ms
 Test with cap 4096 finished
-Elapsed time :         9.802 ms
+Elapsed time :     14124.342 ms
 Test with cap 32768 finished
-Elapsed time :         0.712 ms
-9de20cf218d3c5e8e0730a21f50d4bc6e657268f46a5519aa8dba73741abc779  test.rng
-9de20cf218d3c5e8e0730a21f50d4bc6e657268f46a5519aa8dba73741abc779  test_output.rng
+Elapsed time :     11843.390 ms
+4b1b1a14cc30c6db83ddb78305314f252f14a3994b1ba938e1af908d7415fe1b  test.rng
+4b1b1a14cc30c6db83ddb78305314f252f14a3994b1ba938e1af908d7415fe1b  test_output.rng
