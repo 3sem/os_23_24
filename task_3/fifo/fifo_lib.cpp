@@ -20,7 +20,7 @@ size_t Dpipe::send (Dpipe::Directions dir) {
     return write (fd[dir][1], buf, size);
 }
 
-size_t Dpipe::recieve (Dpipe::Directions dir) {
+size_t Dpipe::receive (Dpipe::Directions dir) {
 
     if (dir != P2C and dir != C2P) {
 

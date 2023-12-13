@@ -25,7 +25,7 @@
 /// @brief Struct that makes communication from parent to child easy and duplex
 struct Dpipe {
 
-    /// @brief enum for direction of send/recieve
+    /// @brief enum for direction of send/receive
     enum Directions {
 
         P2C = 0,
@@ -49,7 +49,7 @@ struct Dpipe {
     /// @brief recieves and write to buffer from pipe
     /// @param dir direction of reception
     /// @return same as read
-    size_t recieve (Directions dir);
+    size_t receive (Directions dir);
 
     size_t write2bufFromFile (FILE* input, size_t _size = 0);
 

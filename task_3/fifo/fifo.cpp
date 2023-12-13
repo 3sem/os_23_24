@@ -6,8 +6,6 @@ int main (int argc, char* argv[]) {
 
     unsigned int _cap[3] = {128, 4096, 1<<15};
     double elapsed_times[3];
-    unsigned int resulting_hash[3];
-
 
     for (int iter = 0; iter < 3; iter++) {
 
@@ -27,22 +25,15 @@ int main (int argc, char* argv[]) {
             FILE* input = fopen (TEST_FILE_NAME, "r");
             assert (input != NULL);
 
-            FILE* output = fopen (OUTPUT_FILE_NAME, "w");
-            assert (input != NULL);
-
-            setvbuf (output, NULL, _IONBF, 0);
-
             while (duplex.write2bufFromFile (input) > 0) {
+                flog ("Child read");
 
-                size_t CHild_send_code = duplex.send (Dpipe::C2P);
+                size_t outSize = duplex.send (Dpipe::C2P);
+                flog ("Child sent");
+                flog (outSize);
 
-                flog (CHild_send_code);
-
-                duplex.recieve (Dpipe::P2C);
-                flog ("Child recieved");
-
-                duplex.writeBuf2File (output);
-                flog ("Child wrote to file");
+                duplex.receive (Dpipe::P2C);
+                flog ("Child received confirmation");
             }
 
             exit (42);
@@ -50,19 +41,34 @@ int main (int argc, char* argv[]) {
 
         duplex.toggleBlock (Dpipe::C2P);
 
+        FILE* output = fopen (OUTPUT_FILE_NAME, "w");
+        assert (output != NULL);
+        setvbuf (output, NULL, _IONBF, 0);
+
         while (waitpid (pid, NULL, WNOHANG) == 0) {
 
             flog ("Parent wait iteration");
-            if (duplex.recieve (Dpipe::C2P) > 0) {
+            if (duplex.receive (Dpipe::C2P) > 0) {
+                flog ("Parent received")
+
+                duplex.writeBuf2File (output);
+                flog ("Parent wrote to file");
+
+                duplex.size = 1;
+                duplex.buf[0] = '\0';
 
                 duplex.send (Dpipe::P2C);
+                flog ("Parent sent confirmation");
             }
         }
 
-        printf ("Test with cap %d finished\n", duplex.cap);
-
-        printf ("Elapsed time : %13.3lf ms\n", (double)(clock () - elapsed_time) * 1000 / CLOCKS_PER_SEC);
+        elapsed_times[iter] = (double)(clock () - elapsed_time) * 1000 / CLOCKS_PER_SEC;
 
         duplex.DTOR ();
+    }
+
+    for (int i = 0; i < 3; i++) {
+
+        printf ("Test with cap %d finished\nElapsed time : %13.3lf ms\n", _cap[i], elapsed_times[i]);
     }
 }
