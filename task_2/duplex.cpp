@@ -12,7 +12,7 @@ int main () {
     assert (output != NULL);
 
     setvbuf (result, NULL, _IONBF, 0);
-    // sets analisys file buffer to zero so that if program is terminated prematurely 
+    // sets analisys file buffer to zero so that if program is terminated prematurely
     // already calculated data will be saved
 
     for (int cap = 128; cap <= (1 << 12); cap*=2) {
@@ -23,7 +23,7 @@ int main () {
 
         pid_t pid = fork ();
 
-        if (pid < 0) {// Check is forking didn't work
+        if (pid < 0) {// Check if forking didn't work
 
             perror ("Fork gone wrong\n");
 
