@@ -11,3 +11,9 @@ cmake ..
 cmake --build .
 ```
 > The executables are located in ```/build/<PROJECT_NAME>/``` directories.
+
+# How to sync
+```bash
+git submodule update --remote
+cp -r os-sem3-hw/* .
+```
