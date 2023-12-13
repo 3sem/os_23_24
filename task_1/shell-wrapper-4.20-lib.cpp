@@ -7,7 +7,7 @@ void run_cmd (char* cmd) {
     comTok cmdTokens[MAX_COM_SIZE + 1]; // plus one for last redirect in case a max limit of commands was reached
     char* args[MAX_COM_SIZE + 1] = {0};
     int sequenceSize = parse_cmd (cmd, args, cmdTokens);
-    printf ("seq size = %d\n", sequenceSize);
+    // printf ("seq size = %d\n", sequenceSize);
 
     int stdoutSave = dup (STDOUT_FILENO);
     int stdinSave = dup (STDIN_FILENO);
@@ -16,7 +16,7 @@ void run_cmd (char* cmd) {
 
     if (pipe (fd) < 0) {
 
-        perror ("хуйня пайп пошел нахуй\n");
+        perror ("Error during pipe allocation\n");
         exit (-1);
     }
 
@@ -36,7 +36,7 @@ void run_cmd (char* cmd) {
 
             if (waitpid (pid, &forkRetVal, 0) == -1) {
 
-                perror ("какаято хуйня бля\n");
+                perror ("Some error during waitpid\n");
                 exit (-1);
             }
 
@@ -95,20 +95,6 @@ int parse_cmd (char* cmd, char** args, comTok* cmdTokens) {
     }
 
     cmdTokens[sequenceSize++].end = -1;
-
-    // printf ("seq Size : %d\n", sequenceSize);
-
-    // for (int j = 0; j < i; j++) {
-
-    //     printf ("%d : <%s>\n", j, args[j]);
-    // }
-
-    // printf ("----------------\n");
-
-    // for (int j = 0; j < sequenceSize; j++) {
-
-    //     printf ("%d : %d - %d\n", j, cmdTokens[j].begin, cmdTokens[j].end);
-    // }
 
     return sequenceSize;
 }

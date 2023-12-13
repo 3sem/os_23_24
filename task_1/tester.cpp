@@ -4,11 +4,11 @@
 
 int main () {
 
-    printf ("I am life for 5 sexs\n");
+    printf ("I'll sleep for next 5 seconds\n");
 
     sleep (5);
 
-    printf ("I am no longer life\n");
+    printf ("Leaving with exit code 42\n");
 
     return 42;
 }

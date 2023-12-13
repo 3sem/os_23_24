@@ -7,8 +7,8 @@ DEPSDIR=_deps/
 
 WRAP_SRC=shell-wrapper-4.20.cpp shell-wrapper-4.20-lib.cpp
 TEST_SRC=tester.cpp
-TEST1_SRC=tester2.cpp
-TEST2_SRC=tester3.cpp
+TEST1_SRC=tester1.cpp
+TEST2_SRC=tester2.cpp
 
 all: $(DEPSDIR) $(OBJDIR) wrap.out test.out test1.out test2.out
 
