@@ -1,0 +1,4 @@
+[submodule "os-sem3-hw"]
+	path = os-sem3-hw
+	url = https://github.com/tndrd/os-sem3-hw.git
+	branch = finish-asap

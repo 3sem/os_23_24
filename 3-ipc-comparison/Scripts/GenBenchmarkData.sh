@@ -1,0 +1,1 @@
+dd if=/dev/urandom of=1gb.in bs=1048576 count=1024
