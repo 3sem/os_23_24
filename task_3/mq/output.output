@@ -1,0 +1,9 @@
+mq
+Test with cap 128 finished
+Elapsed time :     48583.167 ms
+Test with cap 4096 finished
+Elapsed time :      8065.375 ms
+Test with cap 32768 finished
+Elapsed time :      5776.824 ms
+305281092ecb3adaa4de380804ca7180650e7e71a92cd4ff2f8353075914f4a9  test.rng
+305281092ecb3adaa4de380804ca7180650e7e71a92cd4ff2f8353075914f4a9  test_output.rng

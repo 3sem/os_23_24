@@ -12,7 +12,7 @@ typedef struct pString String;
 typedef struct op_table Ops;
 
 typedef struct op_table  {
-    int (*len)(String *self); // "op_table" usually named in file systems; 
+    int (*len)(String *self); // "op_table" usually named in file systems;
                               // "priv" usually named in some drivers (like USB)
 } Ops;
 

@@ -4,7 +4,7 @@ Maximize the performance of echo test (from parent to child and back) on huge fi
 "Play" with buffer sizes and limits on pipe size.
 
 ### Notes:
-1. Create big file if needed: 
+1. Create big file if needed:
 \# 4 Gb file:
 time dd if=/dev/urandom of=file.txt bs=1048576 count=4096
 

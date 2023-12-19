@@ -1,0 +1,11 @@
+fifo
+Test with cap 128 finished
+Elapsed time :    211230.751 ms
+Test with cap 4096 finished
+Elapsed time :     19374.610 ms
+Test with cap 32768 finished
+Elapsed time :     18346.923 ms
+3b0be8601cd36845ec843a4dc5a9285e03bc825a681bf97c940f881376410a5b  test.rng
+3b0be8601cd36845ec843a4dc5a9285e03bc825a681bf97c940f881376410a5b  test_output.rng
+
+изменить эксперимент так чтобы не было ответов

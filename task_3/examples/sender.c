@@ -3,6 +3,7 @@
 #include <sys/msg.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define MSG_SIZE     1024
 // нужна структурка данных, в которой хранится тип сообщения и буфер
@@ -25,28 +26,28 @@ main()
         perror("msgget");
         exit(1);
     }
-    else 
+    else
      printf("msgget: msgget succeeded: msqid = %d\n", msqid);
 
 
     sbuf.mtype = 1;
-    
+
     printf("msgget: msgget succeeded: msqid = %d\n", msqid);
-    
+
     (void) strcpy(sbuf.mtext, "HELLO");
-    
+
     printf("msgget: msgget succeeded: msqid = %d\n", msqid);
-    
+
     buf_length = strlen(sbuf.mtext) + 1 ; // данные сообщения по прежнему считаем '\0'-terminated - строкой.
-    
+
     if (msgsnd(msqid, &sbuf, buf_length, IPC_NOWAIT) < 0) {
        printf ("%d, %d, %s, %d\n", msqid, sbuf.mtype, sbuf.mtext, buf_length);
         perror("msgsnd");
         exit(1);
     }
 
-   else 
+   else
       printf("Message: \"%s\" Sent\n", sbuf.mtext);
-      
+
     return 0;
 }

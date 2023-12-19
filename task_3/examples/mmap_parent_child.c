@@ -10,18 +10,18 @@
 #include <string.h>
 
 int main() {
-  
-  int size = 100 * sizeof(int);  
-  void *addr = mmap(0, size, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+
+  int size = 100 * sizeof(int);
+  void *addr = mmap(0, size, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANON, -1, 0);
   printf("Mapped at %p\n", addr);
-  
+
   int *shared = addr;
   pid_t mychild = fork();
   if (mychild > 0) {
     shared[0] = 10;
     shared[1] = 20;
   } else {
-    sleep(1); // We will talk about synchronization later
+    sleep(1); // We will talk about synchronization mlater
     printf("%d\n", shared[1] + shared[0]);
   }
 
