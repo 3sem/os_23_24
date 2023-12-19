@@ -32,8 +32,8 @@ int main (int argc, char* argv[]) {
                 flog ("Child sent");
                 flog (outSize);
 
-                duplex.receive (Dpipe::P2C);
-                flog ("Child received confirmation");
+                // duplex.receive (Dpipe::P2C);
+                // flog ("Child received confirmation");
             }
 
             exit (42);

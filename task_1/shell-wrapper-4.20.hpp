@@ -10,14 +10,24 @@
 #include <fcntl.h>
 
 #define MAX_COM_SIZE 1024
+#define MAX_CMD_CNT 32
+#define CMD_SEQ_SIZE 32
 
-struct comTok {
+struct Command {
 
-    size_t begin = -1, end = -1;
+    char* seq[CMD_SEQ_SIZE];
+    char first = 0;
+    char last = 0;
 
-    comTok (size_t _begin = -1, size_t _end = -1) : begin (_begin), end (_end) {}
+    Command (char** const seq_ = NULL, char first_ = 0, char last_ = 0) : first (first_), last (last_) {
+
+        if (seq_ == NULL) return;
+        int i = 0;
+        for (i = 0; seq_[i] != NULL; i++) seq[i] = seq_[i];
+        seq[i] = NULL;
+    }
 };
 
 void run_cmd (char* cmd);
 
-int parse_cmd (char* cmd, char** args, comTok* cmdTokens);
+int parse_cmd (char* cmd, Command* output);

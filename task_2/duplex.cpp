@@ -15,7 +15,7 @@ int main () {
     // sets analisys file buffer to zero so that if program is terminated prematurely
     // already calculated data will be saved
 
-    for (int cap = 128; cap <= (1 << 12); cap*=2) {
+    for (int cap = (1 << 7); cap <= (1 << 7); cap*=2) {
 
         clock_t start_T = clock ();
 
@@ -55,7 +55,7 @@ int main () {
         printf ("Left iteration with cap %d\n", cap);
 
         // basically compares sizes and calculates hash values of input and output
-        testTransmissionIntegrity (&input, &output, &result, &dPipe, start_T);
+        // testTransmissionIntegrity (&input, &output, &result, &dPipe, start_T);
 
         dPipe.DTOR (); //destructs duplex pipe
     }

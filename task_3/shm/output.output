@@ -1,3 +1,4 @@
+shm
 Test with cap 128 finished
 Elapsed time :     26798.364 ms
 Test with cap 4096 finished
@@ -6,3 +7,6 @@ Test with cap 32768 finished
 Elapsed time :     11843.390 ms
 4b1b1a14cc30c6db83ddb78305314f252f14a3994b1ba938e1af908d7415fe1b  test.rng
 4b1b1a14cc30c6db83ddb78305314f252f14a3994b1ba938e1af908d7415fe1b  test_output.rng
+
+
+доказать что синхронизация живая
