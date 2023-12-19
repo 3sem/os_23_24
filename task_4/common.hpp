@@ -1,0 +1,1 @@
+#define OUTPUT_FILE_NAME "test_results.tst"

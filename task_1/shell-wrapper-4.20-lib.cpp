@@ -11,10 +11,10 @@ void run_cmd (char* cmd) {
     int sequenceSize = parse_cmd (cmd, commands);
     // printf ("seq size = %d\n", sequenceSize);
 
-    int stdoutSave = dup (STDOUT_FILENO);
-    int stdinSave = dup (STDIN_FILENO);
+    // int stdoutSave = dup (STDOUT_FILENO);
+    // int stdinSave = dup (STDIN_FILENO);
     int fd[2] = {0};
-    int fd_in = 0;
+    int fd_in = STDIN_FILENO;
 
     for (int i = 0; i < sequenceSize; i++) {
 
