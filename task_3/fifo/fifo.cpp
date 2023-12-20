@@ -57,8 +57,8 @@ int main (int argc, char* argv[]) {
                 duplex.size = 1;
                 duplex.buf[0] = '\0';
 
-                duplex.send (Dpipe::P2C);
-                flog ("Parent sent confirmation");
+                // duplex.send (Dpipe::P2C);
+                // flog ("Parent sent confirmation");
             }
         }
 
