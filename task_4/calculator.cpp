@@ -75,6 +75,10 @@ int main (int argc, char* argv[]) {
 
     printf ("Finished test\nSquare = %lf\n", Square);
     fprintf (output, "%d %lf\n", threadCnt, (finish.tv_sec - start.tv_sec) + (finish.tv_usec - start.tv_usec) * 1e-6);
+
+    free (args[0]);
+    free (args);
+    free (thr_ids);
 }
 
 void* routine (void* args_) {
