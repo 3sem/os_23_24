@@ -42,7 +42,7 @@ test:
 
 small_test:
 	make all
-	./$(SRC_TEST:.cpp=.out) $(SRC:.cpp=.out) 15
+	./$(SRC_TEST:.cpp=.out) $(SRC:.cpp=.out) 20
 	gnuplot plot_script.gp
 
 clean:

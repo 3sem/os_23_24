@@ -37,6 +37,7 @@ int main (int argc, char* argv[]) {
     printf ("Starting test\nMin thread cnt : %d\nMax thread cnt : %d\n", seq[0], seq[seqCnt]);
 
     system ("mv " OUTPUT_FILE_NAME " " OUTPUT_FILE_NAME ".old");
+    system ("mv *.png res.old.png");
 
     for (int i = 0; i < seqCnt;i++) {
 

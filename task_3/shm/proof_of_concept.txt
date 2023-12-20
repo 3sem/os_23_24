@@ -1,0 +1,21 @@
+client:
+t = 0 - flag = NULL
+1 stage - flag = FL_NO_WAIT_LIMIT | FL_CLIENT_READY
+wait for FL_SERVER_READY
+2 stage - flag = FL_NO_WAIT_LIMIT | FL_CLIENT_READY | FL_SERVER_READY
+3 stage - flag = FL_CLIENT_READY // это нужно чтобы убрать FL_NO_WAIT_LIMIT
+4 stage - flag = FL_READ
+5 stage - wait for FL_WROTE
+6 stage - flag = FL_EOF
+wait for FL_EOF_CONFIRMED
+end
+
+server:
+t = 0 - flag = NULL
+1 stage - flag = FL_NO_WAIT_LIMIT | FL_SERVER_READY
+wait for FL_CLIENT_READY
+2 stage - flag = FL_CLIENT_READY (from client)
+wait for FL_READ | FL_EOF
+3 stage flag = FL_WROTE
+left while
+flag = FL_EOF_CONFIRMED

@@ -13,7 +13,7 @@ double Square = 0.0;
 
 double f (double x) {
 
-    return x * cos (x);
+    return x * cos(x);
 }
 
 void* routine (void* args_);
@@ -21,10 +21,10 @@ void* routine (void* args_);
 int main (int argc, char* argv[]) {
 
     const double x_l = 0.0;
-    const double x_r = 2 * M_PI;
+    const double x_r = 10.0;
     const double y_l = 0.0;
-    const double y_r = 8.0;
-    const double PT_CNT = 1e9;
+    const double y_r = 10.0;
+    const double PT_CNT = 1e7;
 
     int threadCnt = 1;
 
@@ -73,7 +73,7 @@ int main (int argc, char* argv[]) {
     timeval finish;
     gettimeofday (&finish, NULL);
 
-    printf ("Finished test\n");
+    printf ("Finished test\nSquare = %lf\n", Square);
     fprintf (output, "%d %lf\n", threadCnt, (finish.tv_sec - start.tv_sec) + (finish.tv_usec - start.tv_usec) * 1e-6);
 }
 
@@ -81,11 +81,13 @@ void* routine (void* args_) {
 
     assert (args_ != NULL);
 
-    double x_l = *(double*) (args_ + 0);
-    double x_r = *(double*) (args_ + 1);
-    double y_l = *(double*) (args_ + 2);
-    double y_r = *(double*) (args_ + 3);
-    int pts = (int) *(double*) (args_ + 4);
+    double* args = (double*) args_;
+    double x_l = args[0];
+    double y_l = args[1];
+    double x_r = args[2];
+    double y_r = args[3];
+    long long pts = floor (args[4]);
+    // printf ("%ld\n", pts);
 
     double s = 0.0;
 
@@ -95,10 +97,10 @@ void* routine (void* args_) {
         double x = x_l + (double) rand_r (&seed) / RAND_MAX * (x_r - x_l);
         double y = y_l + (double) rand_r (&seed) / RAND_MAX * (y_r - y_l);
 
-        if (y < f (x)) s++;
+        if (y < f (x)) s+=1;
     }
 
-    s = (s / (double) pts) * (x_r - x_l) * (y_r - y_l);
+    s = (s / (double) (pts)) * (x_r - x_l) * (y_r - y_l);
 
     pthread_mutex_lock (&mut);
     Square += s;
