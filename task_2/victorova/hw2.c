@@ -58,10 +58,8 @@ int f_len(Pipe *self) {
 size_t f_snd_0(Pipe *p) {
 
     size_t size = p->actions.len(p);
-    //printf("snd worked\n");
     
     //size = read(p->fd_direct[1], p->data, p->len-1) - 1;
-    //printf("snd p->data: %s, sz %ld, %ld, %d\n", p->data, size, p->len, p->fd_direct[1]); 
     //p->data[size] = '\0'; // the text string data is expected 
     //printf("snd p->data: %s, sz %ld, %d\n", p->data, size, p->data[size]); 
     write(p->fd_direct[1], p->data, size); 
@@ -74,7 +72,6 @@ size_t f_rcv_0(Pipe *p) {
     size_t size = 0;
     
     size = read(p->fd_direct[0], p->data, p->len-1);
-    //printf("rcv p->data: %s, sz %ld, %d\n", p->data, size, p->data[size]); 
     p->data[size] = '\0'; // the text string data is expected
     //printf("rcv p->data: %s, sz %ld, %d\n", p->data, size, p->data[size]); 
     //printf("Received from parent: %s\n", p->data);
@@ -84,10 +81,8 @@ size_t f_rcv_0(Pipe *p) {
 size_t f_snd_1(Pipe *p) {
 
     size_t size = p->actions.len(p);
-    //printf("snd worked\n");
     
     //size = read(p->fd_back[1], p->data, p->actions.len(p)) - 1;
-    //printf("snd p->data: %s, sz %d, %d\n", p->data, size, p->data[size]); 
     p->data[size] = '\0'; // the text string data is expected 
     //printf("snd p->data: %s, sz %d, %d\n", p->data, size, p->data[size]); 
     write(p->fd_back[1], p->data, size); 
@@ -100,8 +95,6 @@ size_t f_rcv_1(Pipe *p) {
     size_t size = 0;
     
     size = read(p->fd_back[0], p->data, p->len-1);
-    //printf("rcv p->data: %s, sz %d, %d\n", p->data, size, p->data[size]); 
-    //p->data[size] = '\0'; // the text string data is expected
     //printf("rcv p->data: %s, sz %d, %d\n", p->data, size, p->data[size]); 
     //printf("Received from parent1: %s\n", p->data);
     return size;
@@ -178,7 +171,7 @@ int main(int argc, char *argv[]) {
         fclose(inpf);
         fclose(outf);
         wait(NULL);
-        printf("endparent\n");
+        //printf("endparent\n");
     } 
      
     else { 
@@ -199,7 +192,7 @@ int main(int argc, char *argv[]) {
 
             p->actions.sndb(p);
             p->len = BUFSZ;
-            printf("endchild\n");
+            //printf("endchild\n");
         }
     }     
     release(p);
