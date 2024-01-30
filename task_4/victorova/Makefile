@@ -1,4 +1,4 @@
-
-in the directory run`make`
-use the created hw1 with two arguments:`./a.out [max number of threads] [name of file with results]`
-for example`./a.out 10 data`
+all:
+	gcc -Wall -Wextra -g -ggdb3 hw4.c -o hw4
+clean:
+	rm -rf hw4
