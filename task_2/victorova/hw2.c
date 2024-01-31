@@ -110,8 +110,9 @@ void release (Pipe *p) {
 int main(int argc, char *argv[]) { 
 
     if (argc != 3) {
-        printf("please, input names of two files: the sender and the receiver:\n");
-        scanf("%s %s", argv[1], argv[2]);
+        printf("please, input names of two files: the sender and the receiver in command line\n");
+        //scanf("%s %s", argv[1], argv[2]);
+        return 0;
     }
     
     struct timespec start, stop; 
