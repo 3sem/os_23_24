@@ -1,5 +1,5 @@
 #### Задачи:
-1) [Э терминала](https://github.com/3sem/os_23_24/blob/main/task_1/task_1.md)
+1) [Эмулятор терминала](https://github.com/3sem/os_23_24/blob/main/task_1/task_1.md)
 2) [Дуплексный PIPE для Linux](https://github.com/3sem/os_23_24/blob/main/task_2/task_2.md)
 3) [Эксперименты с IPC](https://github.com/3sem/os_23_24/blob/main/task_3/task.txt)
 4) [Распределённый рассчёт интеграла методом Монте-Карло](https://github.com/3sem/os_23_24/blob/main/task_4/task.txt)
