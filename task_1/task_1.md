@@ -1,3 +1,12 @@
+## Русская версия (для РУП):
+### Задача 1
+Разработать эмулятор терминала, позволяющий:
+- Запускать программы, циклически считывая команды через STDIN и запуская их в процессах-потомках.
+- Анализировать коды возврата завершенных процессов
+- Запускать пайплайн процессов, например «env| grep HOSTNAME | wc»
+
+## English Version
+
 ### Homework 1: 
   Write a 'shell-wrapper' program which allow you to:
 - run another programs via command line cyclically getting commands from STDIN and running it somewhere, e.g. in child process.
